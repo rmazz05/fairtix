@@ -1,0 +1,13 @@
+.keys
+.toolchain
+.env*
+chain
+tests
+scripts
+docs
+.git
+.impeccable
+.presentation-build
+.demo-recording
+deliverables
+output

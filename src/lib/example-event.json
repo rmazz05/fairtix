@@ -1,0 +1,17 @@
+{
+  "address": "5vEkv8pB5VYhYTAHeDQWvUHuGwCj9WXg6bjkjqgVwcAX",
+  "mint": "FtJhNL9ykgC98Y1XvTdz92vDWk3UNwTcTqpu4qAHyM8P",
+  "organizer": "9AAHfm9yq2SDLj65nAi9uAUSZsLvKnE5FqcFMW7sXEqL",
+  "eventId": "1790893206717",
+  "name": "Friday, after lectures",
+  "venue": "Vallendar \u00b7 example venue",
+  "date": 1793988000,
+  "facePrice": 2500,
+  "capBps": 1000,
+  "royaltyBps": 500,
+  "supply": 400,
+  "sold": 0,
+  "resales": 0,
+  "royaltiesEarned": 0,
+  "example": true
+}

@@ -1,0 +1,1116 @@
+{
+  "address": "4NxaE691WuYMs1ScHn6jDByVW8sj6U5w5nT9EXMUaYrF",
+  "metadata": {
+    "name": "fairtix_market",
+    "version": "0.1.0",
+    "spec": "0.1.0"
+  },
+  "instructions": [
+    {
+      "name": "buy_primary",
+      "discriminator": [89, 86, 227, 49, 41, 118, 66, 248],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "buyer",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "event",
+          "writable": true
+        },
+        {
+          "name": "ticket_mint",
+          "writable": true
+        },
+        {
+          "name": "currency_mint",
+          "relations": ["config"]
+        },
+        {
+          "name": "organizer",
+          "relations": ["event"]
+        },
+        {
+          "name": "treasury",
+          "relations": ["config"]
+        },
+        {
+          "name": "buyer_ticket",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "buyer"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "buyer_currency",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "buyer"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "currency_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "organizer_currency",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "organizer"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "currency_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "treasury_currency",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "treasury"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "currency_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "buy_resale",
+      "discriminator": [71, 230, 159, 123, 90, 231, 111, 104],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "buyer",
+          "signer": true
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "event",
+          "writable": true,
+          "relations": ["listing"]
+        },
+        {
+          "name": "ticket_mint"
+        },
+        {
+          "name": "currency_mint",
+          "relations": ["config"]
+        },
+        {
+          "name": "seller",
+          "relations": ["listing"]
+        },
+        {
+          "name": "organizer",
+          "relations": ["event"]
+        },
+        {
+          "name": "treasury",
+          "relations": ["config"]
+        },
+        {
+          "name": "listing",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [108, 105, 115, 116, 105, 110, 103]
+              },
+              {
+                "kind": "account",
+                "path": "event"
+              },
+              {
+                "kind": "account",
+                "path": "seller"
+              },
+              {
+                "kind": "account",
+                "path": "listing.nonce",
+                "account": "Listing"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "listing"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          },
+          "relations": ["listing"]
+        },
+        {
+          "name": "rent_payer",
+          "writable": true,
+          "relations": ["listing"]
+        },
+        {
+          "name": "buyer_ticket",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "buyer"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "buyer_currency",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "buyer"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "currency_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "seller_currency",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "seller"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "currency_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "organizer_currency",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "organizer"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "currency_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "treasury_currency",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "treasury"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "currency_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "extra_account_meta_list",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101, 120, 116, 114, 97, 45, 97, 99, 99, 111, 117, 110, 116,
+                  45, 109, 101, 116, 97, 115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                111, 160, 182, 41, 55, 237, 143, 233, 172, 232, 117, 63, 173,
+                144, 40, 240, 178, 50, 81, 19, 247, 242, 42, 83, 0, 91, 165,
+                172, 109, 191, 114, 102
+              ]
+            }
+          }
+        },
+        {
+          "name": "hook_program",
+          "address": "8WkPYAkswnyywHpY7VcCwVMsCgmDzMrDtLuT9ZzGyoWD"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "cancel",
+      "discriminator": [232, 219, 223, 41, 219, 236, 220, 190],
+      "accounts": [
+        {
+          "name": "seller",
+          "signer": true,
+          "relations": ["listing"]
+        },
+        {
+          "name": "event",
+          "relations": ["listing"]
+        },
+        {
+          "name": "ticket_mint"
+        },
+        {
+          "name": "listing",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [108, 105, 115, 116, 105, 110, 103]
+              },
+              {
+                "kind": "account",
+                "path": "event"
+              },
+              {
+                "kind": "account",
+                "path": "seller"
+              },
+              {
+                "kind": "account",
+                "path": "listing.nonce",
+                "account": "Listing"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "listing"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          },
+          "relations": ["listing"]
+        },
+        {
+          "name": "seller_ticket",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "seller"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "rent_payer",
+          "writable": true,
+          "relations": ["listing"]
+        },
+        {
+          "name": "extra_account_meta_list",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101, 120, 116, 114, 97, 45, 97, 99, 99, 111, 117, 110, 116,
+                  45, 109, 101, 116, 97, 115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                111, 160, 182, 41, 55, 237, 143, 233, 172, 232, 117, 63, 173,
+                144, 40, 240, 178, 50, 81, 19, 247, 242, 42, 83, 0, 91, 165,
+                172, 109, 191, 114, 102
+              ]
+            }
+          }
+        },
+        {
+          "name": "hook_program",
+          "address": "8WkPYAkswnyywHpY7VcCwVMsCgmDzMrDtLuT9ZzGyoWD"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_event",
+      "discriminator": [49, 219, 29, 203, 22, 98, 100, 87],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "organizer",
+          "signer": true
+        },
+        {
+          "name": "event",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [101, 118, 101, 110, 116]
+              },
+              {
+                "kind": "account",
+                "path": "organizer"
+              },
+              {
+                "kind": "arg",
+                "path": "event_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "ticket_mint",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [109, 105, 110, 116]
+              },
+              {
+                "kind": "account",
+                "path": "event"
+              }
+            ]
+          }
+        },
+        {
+          "name": "extra_account_meta_list",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101, 120, 116, 114, 97, 45, 97, 99, 99, 111, 117, 110, 116,
+                  45, 109, 101, 116, 97, 115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                111, 160, 182, 41, 55, 237, 143, 233, 172, 232, 117, 63, 173,
+                144, 40, 240, 178, 50, 81, 19, 247, 242, 42, 83, 0, 91, 165,
+                172, 109, 191, 114, 102
+              ]
+            }
+          }
+        },
+        {
+          "name": "hook_program",
+          "address": "8WkPYAkswnyywHpY7VcCwVMsCgmDzMrDtLuT9ZzGyoWD"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "event_id",
+          "type": "u64"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "venue",
+          "type": "string"
+        },
+        {
+          "name": "date",
+          "type": "i64"
+        },
+        {
+          "name": "face_price",
+          "type": "u64"
+        },
+        {
+          "name": "supply",
+          "type": "u32"
+        },
+        {
+          "name": "cap_bps",
+          "type": "u16"
+        },
+        {
+          "name": "royalty_bps",
+          "type": "u16"
+        },
+        {
+          "name": "uri",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initialize_config",
+      "discriminator": [208, 127, 21, 1, 194, 190, 196, 70],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true,
+          "address": "5coagnKL9pD4mfn4RL1KtWfMZ6jTmBTubQ2G7kUNhJud"
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [99, 111, 110, 102, 105, 103]
+              }
+            ]
+          }
+        },
+        {
+          "name": "currency_mint"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "list",
+      "discriminator": [54, 174, 193, 67, 17, 41, 132, 38],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "seller",
+          "signer": true
+        },
+        {
+          "name": "event"
+        },
+        {
+          "name": "ticket_mint"
+        },
+        {
+          "name": "listing",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [108, 105, 115, 116, 105, 110, 103]
+              },
+              {
+                "kind": "account",
+                "path": "event"
+              },
+              {
+                "kind": "account",
+                "path": "seller"
+              },
+              {
+                "kind": "arg",
+                "path": "nonce"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "listing"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "seller_ticket",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "seller"
+              },
+              {
+                "kind": "account",
+                "path": "token_program"
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142,
+                13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216,
+                219, 233, 248, 89
+              ]
+            }
+          }
+        },
+        {
+          "name": "extra_account_meta_list",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  101, 120, 116, 114, 97, 45, 97, 99, 99, 111, 117, 110, 116,
+                  45, 109, 101, 116, 97, 115
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "ticket_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                111, 160, 182, 41, 55, 237, 143, 233, 172, 232, 117, 63, 173,
+                144, 40, 240, 178, 50, 81, 19, 247, 242, 42, 83, 0, 91, 165,
+                172, 109, 191, 114, 102
+              ]
+            }
+          }
+        },
+        {
+          "name": "hook_program",
+          "address": "8WkPYAkswnyywHpY7VcCwVMsCgmDzMrDtLuT9ZzGyoWD"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "nonce",
+          "type": "u64"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "discriminator": [155, 12, 170, 224, 30, 250, 204, 130]
+    },
+    {
+      "name": "Event",
+      "discriminator": [125, 192, 125, 158, 9, 115, 152, 233]
+    },
+    {
+      "name": "Listing",
+      "discriminator": [218, 32, 50, 73, 43, 134, 26, 58]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "Only the configured administrator may initialize the market."
+    },
+    {
+      "code": 6001,
+      "name": "InvalidCurrency",
+      "msg": "Test credits must use two decimal places."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidDetails",
+      "msg": "Check the event details, date, ticket quantity and face price."
+    },
+    {
+      "code": 6003,
+      "name": "InvalidCap",
+      "msg": "The resale cap must be between 0% and 25%."
+    },
+    {
+      "code": 6004,
+      "name": "InvalidRoyalty",
+      "msg": "The organizer royalty must be between 0% and 10%."
+    },
+    {
+      "code": 6005,
+      "name": "SoldOut",
+      "msg": "This event is sold out."
+    },
+    {
+      "code": 6006,
+      "name": "OverCap",
+      "msg": "The asking price exceeds the organizer's resale cap."
+    },
+    {
+      "code": 6007,
+      "name": "Arithmetic",
+      "msg": "The amount is outside the supported range."
+    }
+  ],
+  "types": [
+    {
+      "name": "Config",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "currency_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "primary_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "resale_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Event",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "organizer",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "event_id",
+            "type": "u64"
+          },
+          {
+            "name": "face_price",
+            "type": "u64"
+          },
+          {
+            "name": "cap_bps",
+            "type": "u16"
+          },
+          {
+            "name": "royalty_bps",
+            "type": "u16"
+          },
+          {
+            "name": "supply",
+            "type": "u32"
+          },
+          {
+            "name": "sold",
+            "type": "u32"
+          },
+          {
+            "name": "resales",
+            "type": "u32"
+          },
+          {
+            "name": "royalties_earned",
+            "type": "u64"
+          },
+          {
+            "name": "date",
+            "type": "i64"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "venue",
+            "type": "string"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Listing",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "event",
+            "type": "pubkey"
+          },
+          {
+            "name": "seller",
+            "type": "pubkey"
+          },
+          {
+            "name": "escrow",
+            "type": "pubkey"
+          },
+          {
+            "name": "rent_payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "nonce",
+            "type": "u64"
+          },
+          {
+            "name": "price",
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+[toolchain]
+anchor_version = "0.32.1"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+fairtix_market = "4NxaE691WuYMs1ScHn6jDByVW8sj6U5w5nT9EXMUaYrF"
+fairtix_hook = "8WkPYAkswnyywHpY7VcCwVMsCgmDzMrDtLuT9ZzGyoWD"
+
+[programs.devnet]
+fairtix_market = "4NxaE691WuYMs1ScHn6jDByVW8sj6U5w5nT9EXMUaYrF"
+fairtix_hook = "8WkPYAkswnyywHpY7VcCwVMsCgmDzMrDtLuT9ZzGyoWD"
+
+[provider]
+cluster = "http://127.0.0.1:8920"
+wallet = "../.keys/sponsor.json"
