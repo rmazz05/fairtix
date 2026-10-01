@@ -58,7 +58,13 @@ async function main() {
     details: { ...details, capBps: 1000, name: "🎫".repeat(30) },
   });
   assert.equal(badName.status, 400);
-  assert.match(badName.body.error, /96 bytes/);
+  assert.match(badName.body.error, /Shorten the event name/);
+  const badDate = await post("/api/prepare", {
+    owner,
+    action: "create",
+    details: { ...details, capBps: 1000, date: Number.MAX_SAFE_INTEGER },
+  });
+  assert.equal(badDate.status, 400);
   const prepared = await post("/api/prepare", {
     owner: event.organizer,
     action: "primary",
@@ -87,7 +93,7 @@ async function main() {
   );
   assert.match(metadata.description, /test|demo/i);
   console.log(
-    "7 HTTP checks passed: live state, origin, account input, cap, UTF-8 names, sponsor signature and unsigned relay rejection.",
+    "8 HTTP checks passed: live state, origin, account input, cap, UTF-8 names, date, sponsor signature and unsigned relay rejection.",
   );
 }
 main().catch((e) => {

@@ -123,7 +123,7 @@ export function eventView(address: PublicKey, a: EventAccount): EventView {
     eventId: a.eventId.toString(),
     name: a.name,
     venue: a.venue,
-    date: a.date.toNumber(),
+    date: Number(a.date.toString()),
     facePrice: a.facePrice.toNumber(),
     capBps: a.capBps,
     royaltyBps: a.royaltyBps,
@@ -318,16 +318,15 @@ export async function prepare(input: ActionInput): Promise<Prepared> {
   if (input.action === "create") {
     const d = input.details;
     if (
+      !d ||
       typeof d.name !== "string" ||
       typeof d.venue !== "string" ||
       !d.name.trim() ||
-      !d.venue.trim() ||
-      Buffer.byteLength(d.name) > 96 ||
-      Buffer.byteLength(d.venue) > 96
+      !d.venue.trim()
     )
-      throw new Error(
-        "Use an event name and venue of no more than 96 bytes each.",
-      );
+      throw new Error("Enter an event name and venue.");
+    if (Buffer.byteLength(d.name) > 96 || Buffer.byteLength(d.venue) > 96)
+      throw new Error("Shorten the event name or venue and try again.");
     if (
       !Number.isSafeInteger(d.facePrice) ||
       d.facePrice < 1 ||
@@ -340,7 +339,9 @@ export async function prepare(input: ActionInput): Promise<Prepared> {
       !Number.isSafeInteger(d.royaltyBps) ||
       d.royaltyBps < 0 ||
       d.royaltyBps > 1000 ||
-      !Number.isSafeInteger(d.date)
+      !Number.isSafeInteger(d.date) ||
+      d.date < 1 ||
+      d.date > 4_102_444_800
     )
       throw new Error(
         "Check the ticket price, quantity, cap, royalty and date.",

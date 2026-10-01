@@ -88,10 +88,12 @@ export function shortAddress(address: string) {
   return `${address.slice(0, 5)}…${address.slice(-5)}`;
 }
 export function eventDate(date: number) {
+  const value = new Date(date * 1000);
+  if (!Number.isFinite(value.getTime())) return "Date unavailable";
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",
     month: "short",
     year: "numeric",
     timeZone: "Europe/Berlin",
-  }).format(new Date(date * 1000));
+  }).format(value);
 }

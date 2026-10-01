@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s · Fairtix",
   },
   description:
-    "Student event tickets with an organizer-set resale cap. Buy a ticket, resell it within the cap, and pay the organizer a royalty. A Solana devnet demo.",
+    "Student event tickets with an organizer-set resale cap. Buy a ticket, resell it within the cap, and pay the organizer a royalty. A Solana prototype using test credits.",
   robots: { index: false, follow: false },
 };
 export default async function RootLayout({
