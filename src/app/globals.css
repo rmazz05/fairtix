@@ -1,4 +1,11 @@
 @import "tailwindcss";
+@font-face {
+  font-family: "Mona Sans VF";
+  src: url("/fonts/mona-sans.woff2") format("woff2");
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+  font-display: swap;
+}
 @theme {
   --color-paper: #f3efe6;
   --color-ink: #16130f;
@@ -200,6 +207,11 @@ svg {
 .button.outline {
   background: transparent;
   color: var(--ink);
+  outline-style: none;
+}
+.button.outline:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
 }
 .button.outline:hover:not(:disabled) {
   background: var(--card);
@@ -1148,54 +1160,91 @@ td a {
   flex-wrap: wrap;
   gap: 24px;
 }
+html:has(.home-shell) {
+  background: #fff;
+}
+.home-shell {
+  --font-home: "Mona Sans VF";
+  --paper: #fff;
+  --ink: #11160b;
+  --card: #fff;
+  --rule: #e4e5dc;
+  min-height: 100svh;
+  background: linear-gradient(180deg, #eff4b4 0, #f6f8d7 560px, #fff 860px);
+}
+.home-header {
+  min-height: 80px;
+  border-bottom: 0;
+}
+.home-header .wordmark {
+  font-size: 28px;
+}
+.home-header .wordmark span {
+  color: var(--signal);
+}
+.home-header .account-button {
+  border: 1px solid #dfe5aa;
+  border-radius: 8px;
+  padding: 10px 18px;
+}
+.home-header .account-button svg {
+  display: none;
+}
 .home-hero {
-  background: #ffe5d7;
-  border-bottom: 1px solid var(--ink);
-  padding: 80px 0 64px;
+  padding: 80px 0 104px;
   text-align: center;
 }
 .home-page .events-section {
   border-top: 0;
 }
 .home-hero-content h1 {
+  font-family: var(--font-home), sans-serif;
   font-size: clamp(64px, 8vw, 96px);
   font-weight: 800;
-  font-variation-settings: "wdth" 75;
-  letter-spacing: -0.035em;
-  line-height: 1;
+  font-variation-settings:
+    "wdth" 75,
+    "opsz" 96;
+  letter-spacing: -1px;
+  line-height: 0.92;
 }
 .home-hero-content h1 > span {
   display: block;
 }
-.home-hero-content h1 s {
-  text-decoration-color: var(--signal);
-  text-decoration-thickness: 0.09em;
-}
 .home-hero-content > p {
-  max-width: 49ch;
-  margin: 28px auto 32px;
+  font-family: var(--font-home), sans-serif;
+  max-width: 58ch;
+  margin: 28px auto 36px;
   font-size: 20px;
-  line-height: 1.45;
+  line-height: 1.4;
   text-wrap: balance;
 }
 .home-hero-actions {
+  width: min(560px, 100%);
+  margin-inline: auto;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #e7e9db;
+  border-radius: 14px;
+  box-shadow: 0 5px 12px #1c230e14;
 }
 .home-hero-actions .button {
-  min-width: 208px;
-  min-height: 56px;
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
   font-size: 16px;
+  font-family: var(--font-home), sans-serif;
+  font-weight: 600;
+  border-radius: 9px;
 }
-.home-hero-content > .home-demo-context {
-  max-width: none;
-  margin: 24px 0 0;
-  font-size: 14px;
+.home-hero-actions .button.outline {
+  border-color: #e5e6df;
 }
-.home-demo-context span {
-  padding-inline: 6px;
+.home-page .events-section {
+  padding-top: 40px;
 }
 .demo-heading {
   display: flex;
@@ -1412,30 +1461,28 @@ td a {
 }
 @media (max-width: 760px) {
   .home-hero {
-    padding: 56px 0 40px;
+    padding: 48px 0 64px;
   }
   .home-hero-content h1 {
-    font-size: clamp(52px, 11.8vw, 72px);
-    line-height: 1.03;
+    font-size: clamp(56px, 14.5vw, 88px);
+    line-height: 0.96;
   }
   .home-hero-content > p {
-    max-width: 31ch;
-    margin: 24px auto 28px;
+    max-width: 34ch;
+    margin: 24px auto 32px;
     font-size: 18px;
   }
   .home-hero-actions {
-    flex-direction: column;
+    max-width: 390px;
+    flex-direction: row;
     gap: 8px;
   }
   .home-hero-actions .button {
-    width: min(100%, 320px);
+    padding: 12px 10px;
+    font-size: 14px;
   }
-  .home-hero-content > .home-demo-context {
-    margin: 20px 0 0;
-    font-size: 13px;
-  }
-  .home-demo-context span {
-    padding-inline: 2px;
+  .home-hero-actions .button svg {
+    display: none;
   }
   .demo-heading {
     padding: 40px 0 32px;

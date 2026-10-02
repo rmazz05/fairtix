@@ -52,8 +52,10 @@ export function Shell({ children }: { children: ReactNode }) {
     pathname = usePathname(),
     [account, setAccount] = useState(false);
   return (
-    <>
-      <header className="site-header container">
+    <div className={pathname === "/" ? "home-shell" : undefined}>
+      <header
+        className={`site-header container${pathname === "/" ? " home-header" : ""}`}
+      >
         <Link className="wordmark" href="/" aria-label="Fairtix home">
           fairtix<span>.</span>
         </Link>
@@ -233,6 +235,6 @@ export function Shell({ children }: { children: ReactNode }) {
           )}
         </Dialog>
       )}
-    </>
+    </div>
   );
 }

@@ -7,26 +7,18 @@ import { euros, maxPrice } from "@/lib/types";
 
 export function Home() {
   const { snapshot } = useApp();
-  const example = snapshot.events.find(
-    (event) => event.address === snapshot.demoEvent,
-  );
-  const facePrice = euros(example?.facePrice || 2500).replace(/\.00$/, "");
-  const rejectedPrice = euros(
-    Math.max(6000, example ? maxPrice(example) + 100 : 6000),
-  ).replace(/\.00$/, "");
   return (
     <div className="home-page">
       <section className="home-hero">
         <div className="container home-hero-content">
           <h1>
-            <span>A {facePrice} ticket.</span>
-            <span>
-              Not a <s>{rejectedPrice}</s> resale.
-            </span>
+            <span>Tickets for your event,</span>
+            <span>with a resale cap</span>
+            <span>you control.</span>
           </h1>
           <p>
-            The organizer sets the resale cap. Fairtix checks the price before
-            the ticket changes hands.
+            Fans can resell their tickets. Fairtix checks the price before the
+            ticket changes hands.
           </p>
           <div className="home-hero-actions">
             <Link href="/demo" className="button">
@@ -36,12 +28,6 @@ export function Home() {
               Create an event
             </Link>
           </div>
-          {example && (
-            <p className="home-demo-context">
-              {example.name} <span aria-hidden="true">·</span> Resale capped at{" "}
-              {euros(maxPrice(example))}
-            </p>
-          )}
         </div>
       </section>
       <section className="container events-section" id="events">
