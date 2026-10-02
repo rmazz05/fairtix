@@ -131,8 +131,6 @@ FAIRTIX_TEST_URL=https://fairtix-whu.vercel.app FAIRTIX_TEST_NETWORK=devnet npm 
 | `docs/`                          | Setup instructions, verification records and editable pitch deck           |
 | `public/`                        | Final pitch PDF and application assets                                     |
 
-Private keys, environment files, dependencies, validator ledgers and build output are excluded from Git. The PDF has one canonical copy under `public/`. The [editable deck](docs/Fairtix-pitch.pptx) stays in the repository and is excluded from the website deployment.
-
 ## Current limits
 
 - Test credits only. No real euro checkout, event admission, check-in, refunds, seated tickets or identity verification.

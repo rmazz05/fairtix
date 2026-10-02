@@ -1,7 +1,7 @@
 import { loadEnvConfig } from "@next/env";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { AnchorProvider, BN, Wallet } from "@coral-xyz/anchor";
-import { Keypair } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
 import { createMint, TOKEN_2022_PROGRAM_ID } from "@solana/spl-token";
 import { CONFIG, createInstruction, transaction } from "../src/lib/chain";
 import {
@@ -57,13 +57,15 @@ async function main() {
       })
       .rpc();
   }
-  let example = process.env.FAIRTIX_DEMO_EVENT;
-  if (
-    !example ||
-    !(await rpc.getAccountInfo(
-      new (await import("@solana/web3.js")).PublicKey(example),
-    ))
-  ) {
+  const previousExample = process.env.FAIRTIX_DEMO_EVENT;
+  let example = previousExample;
+  if (example) {
+    const current = await program.account.event.fetchNullable(
+      new PublicKey(example),
+    );
+    if (!current || current.name !== "Football match") example = undefined;
+  }
+  if (!example) {
     const file = ".keys/organizer.json";
     const organizer = existsSync(file)
       ? Keypair.fromSecretKey(
@@ -74,7 +76,7 @@ async function main() {
       writeFileSync(file, JSON.stringify([...organizer.secretKey]), {
         mode: 0o600,
       });
-    const seedFile = ".keys/example-event.json";
+    const seedFile = ".keys/football-example-event.json";
     const eventId = existsSync(seedFile)
       ? JSON.parse(readFileSync(seedFile, "utf8")).id
       : String(Date.now());
@@ -88,8 +90,8 @@ async function main() {
       organizer.publicKey,
       new BN(eventId),
       {
-        name: "Friday, after lectures",
-        venue: "Vallendar · example venue",
+        name: "Football match",
+        venue: "Vallendar",
         date: Math.floor(
           new Date("2026-11-06T19:00:00+01:00").getTime() / 1000,
         ),
@@ -98,21 +100,35 @@ async function main() {
         capBps: 1000,
         royaltyBps: 500,
       },
-      "https://fairtix-whu.vercel.app/api/metadata?name=Friday%2C%20after%20lectures",
+      "https://fairtix-whu.vercel.app/api/metadata?name=Football%20match",
     );
-    const signature = await provider.sendAndConfirm(
-      transaction([instruction]),
-      [organizer],
-    );
+    const existing = await program.account.event.fetchNullable(event);
+    if (existing && existing.name !== "Football match")
+      throw new Error(
+        "The saved example event belongs to a different fixture.",
+      );
+    const signature = existing
+      ? null
+      : await provider.sendAndConfirm(transaction([instruction]), [organizer]);
     example = event.toBase58();
     console.log(`Example event created: ${example}\nTransaction: ${signature}`);
   }
-  const env = readFileSync(".env.local", "utf8")
+  let env = readFileSync(".env.local", "utf8")
     .replace(
       /^SOLANA_CURRENCY_MINT=.*$/m,
       `SOLANA_CURRENCY_MINT=${currency.toBase58()}`,
     )
     .replace(/^FAIRTIX_DEMO_EVENT=.*$/m, `FAIRTIX_DEMO_EVENT=${example}`);
+  if (previousExample && previousExample !== example) {
+    const excluded = new Set(
+      (process.env.FAIRTIX_EXCLUDED_EVENTS || "").split(",").filter(Boolean),
+    );
+    excluded.add(previousExample);
+    const line = `FAIRTIX_EXCLUDED_EVENTS=${[...excluded].join(",")}`;
+    env = /^FAIRTIX_EXCLUDED_EVENTS=/m.test(env)
+      ? env.replace(/^FAIRTIX_EXCLUDED_EVENTS=.*$/m, line)
+      : env.trimEnd() + "\n" + line + "\n";
+  }
   writeFileSync(".env.local", env, { mode: 0o600 });
   writeFileSync(
     "chain/deployment.json",

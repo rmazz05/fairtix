@@ -62,7 +62,7 @@ export function Organizer() {
             {!app.snapshot.ready
               ? "Preview of the organizer view. No sales have been recorded here."
               : example
-                ? "Sales and royalties for Friday, after lectures."
+                ? `Sales and royalties for ${events.map((event) => event.name).join(", ")}.`
                 : "Sales and royalties recorded by your events."}
           </p>
         </div>

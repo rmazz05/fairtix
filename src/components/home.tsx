@@ -7,22 +7,44 @@ import { euros, maxPrice } from "@/lib/types";
 
 export function Home() {
   const { snapshot } = useApp();
+  const example = snapshot.events.find(
+    (event) => event.address === snapshot.demoEvent,
+  );
+  const facePrice = euros(example?.facePrice || 2500).replace(/\.00$/, "");
+  const rejectedPrice = euros(
+    Math.max(6000, example ? maxPrice(example) + 100 : 6000),
+  ).replace(/\.00$/, "");
   return (
-    <div className="container">
-      <section className="hero hero-centered">
-        <h1>
-          Tickets with
-          <br />a resale cap.
-        </h1>
-        <p>Let fans resell tickets at a price you decide.</p>
-        <Link href="/demo" className="button signal">
-          Try the demo <ArrowRight size={18} />
-        </Link>
-        <Link href="/create" className="text-button">
-          Create an event
-        </Link>
+    <div className="home-page">
+      <section className="home-hero">
+        <div className="container home-hero-content">
+          <h1>
+            <span>A {facePrice} ticket.</span>
+            <span>
+              Not a <s>{rejectedPrice}</s> resale.
+            </span>
+          </h1>
+          <p>
+            The organizer sets the resale cap. Fairtix checks the price before
+            the ticket changes hands.
+          </p>
+          <div className="home-hero-actions">
+            <Link href="/demo" className="button">
+              Try the demo <ArrowRight size={18} />
+            </Link>
+            <Link href="/create" className="button outline">
+              Create an event
+            </Link>
+          </div>
+          {example && (
+            <p className="home-demo-context">
+              {example.name} <span aria-hidden="true">·</span> Resale capped at{" "}
+              {euros(maxPrice(example))}
+            </p>
+          )}
+        </div>
       </section>
-      <section className="events-section" id="events">
+      <section className="container events-section" id="events">
         <div className="section-heading">
           <h2>Events</h2>
         </div>
