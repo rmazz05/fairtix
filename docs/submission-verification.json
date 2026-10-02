@@ -1,22 +1,21 @@
 {
-  "verifiedAt": "2026-10-02T20:05:07.191062+00:00",
-  "codeCommit": "68bd0e63642ab061bdc3c9bbf4e14e7f93368cbc",
+  "verifiedAt": "2026-10-02T21:05:43.427078+00:00",
+  "codeCommit": "5a2bcbca2e1ffb0d911ca42adb7cf972f33484ea",
   "publicUrl": "https://fairtix-whu.vercel.app",
-  "deploymentUrl": "https://fairtix-b0xrf50mx-ricky-projects.vercel.app",
+  "deploymentUrl": "https://fairtix-i6vdh18yi-ricky-projects.vercel.app",
   "rpc": "standard Solana devnet, retained at project owner request",
   "checks": {
     "typescript": true,
     "productionBuild": true,
     "publicHttp": 9,
-    "rpcAndResilience": 10,
-    "demoRecovery": "passed",
-    "publicSplitResale": "four finalized receipts; ownership and payment deltas checked",
-    "publicStyles": "split and centered hero styles verified",
-    "readmeLocalLinks": "valid"
+    "publicFootballResale": "four finalized demo receipts, ownership and all payment deltas checked",
+    "footballMintMetadata": "name and URI verified on chain",
+    "publicStyles": "Mona Sans font and home-shell styles verified",
+    "readmeParagraphRemoved": true
   },
   "browser": {
-    "publicSplitResale": "passed",
-    "reloadAfterResale": "completed progress restored",
+    "publicSplitResale": "football example passed",
+    "reloadAfterResale": "completed football progress restored",
     "demoDesktop": {
       "viewportWidth": 1280,
       "documentWidth": 1280,
@@ -67,5 +66,20 @@
     "Shared RPC can still throttle under load.",
     "These are test credits, not real euro payments or event admissions.",
     "No independent security audit."
-  ]
+  ],
+  "previousInterfaceVerification": {
+    "verifiedAt": "2026-10-02T20:05:07.191062+00:00",
+    "codeCommit": "68bd0e63642ab061bdc3c9bbf4e14e7f93368cbc",
+    "deploymentUrl": "https://fairtix-b0xrf50mx-ricky-projects.vercel.app",
+    "checks": {
+      "typescript": true,
+      "productionBuild": true,
+      "publicHttp": 9,
+      "rpcAndResilience": 10,
+      "demoRecovery": "passed",
+      "publicSplitResale": "four finalized receipts; ownership and payment deltas checked",
+      "publicStyles": "split and centered hero styles verified",
+      "readmeLocalLinks": "valid"
+    }
+  }
 }

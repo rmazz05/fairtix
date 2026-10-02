@@ -30,10 +30,12 @@ The full local procedure was then executed with newly generated keys, Agave 4.3.
 
 An intermittent consumed-response error found during the clean run was corrected by draining each upstream RPC response once and returning a fresh response body to the Solana client.
 
-The current interface checks and public captures are recorded in [submission verification](submission-verification.json) and `docs/screenshots`. The centered home hero and demo were checked at 1280 × 800 and 390 × 844. Document width matched viewport width. The hero contains no ticket; the demo uses two columns on desktop and stacks seller above buyer on mobile. The obsolete account-selection guide and its captures have been removed. The clean-checkout and full chain procedures above were completed before the split-screen UI revision; they are retained as setup and program verification, rather than described as a new clean-install run.
+The current interface checks and public captures are recorded in [submission verification](submission-verification.json) and `docs/screenshots`. The home page follows Jet HR's composition, with condensed Mona Sans headings, an integrated header and a compact action panel. Home and demo were checked at widths of 1280 and 390 pixels. Document width matched viewport width. The hero contains no ticket; the demo uses two columns on desktop and stacks seller above buyer on mobile. The clean-checkout and full chain procedures above predate these interface revisions and remain setup and program verification.
+
+The example is now “Football match” in both the event account and mint metadata. A new public browser run rejected a €60 listing, listed at €27.50 and completed the resale. Event creation and all four demo transactions finalized. Independent token-balance checks confirmed the ownership change and payment split. The current event's receipts and metadata are recorded under `footballExample` in [the split demo report](split-demo-verification.json).
 
 ## Submission materials
 
-The final PDF has one canonical copy under `public/`. The editable PowerPoint lives in `docs/Fairtix-pitch.pptx`. Their verified byte hashes are in [the material verification report](devnet-materials-verification.json).
+Deck hashes and link checks are in [the material verification report](devnet-materials-verification.json).
 
-The eight-slide deck contains no invented organizer endorsement or pilot commitment. Native PowerPoint and Google Slides application behavior has not been tested. The PDF is public; the editable PowerPoint stays in the repository.
+The eight-slide deck contains no invented organizer endorsement or pilot commitment. Native PowerPoint and Google Slides application behavior has not been tested.

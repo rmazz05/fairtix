@@ -118,7 +118,7 @@
         "error": null
       }
     ],
-    "payment": "Seller\u20ac25.58Organizer royalty\u20ac1.37Fairtix\u20ac0.55",
+    "payment": "Seller€25.58Organizer royalty€1.37Fairtix€0.55",
     "network": "devnet",
     "currencyDeltaCents": [
       -2750,
@@ -130,5 +130,88 @@
       -1,
       1
     ]
+  },
+  "footballExample": {
+    "verifiedAt": "2026-10-02T21:00:05.837Z",
+    "url": "https://fairtix-whu.vercel.app/demo",
+    "event": "CBryEawcp9Rc7hTPfJz6qYZ8xdLjo2SbQuuzGjpCHZsu",
+    "mint": "8eWN3xS4NkUSo1vbTHZTGt8wEckndm2VEt81hAFb6Dvs",
+    "metadata": {
+      "name": "Football match",
+      "uri": "https://fairtix-whu.vercel.app/api/metadata?name=Football%20match"
+    },
+    "receipts": {
+      "eventCreated": {
+        "signature": "2rJgL5hZ9Fy4Ea9MPUmfS7vR18soEaMCEy5uVWevvTiNBLm1PwNa3oXEN3k1p1hc9CYTZC78MNTPPeeZf1AFia3A",
+        "status": "finalized",
+        "error": null
+      },
+      "primary": {
+        "signature": "4PLCseyHyb6CLqn5oSqwnBECW5tacR6KjnaWNTx2Q4ZBbeCPYyAvkHLW6vpdxATzCRh5TceuQkpC5t9WwgXmmvVU",
+        "status": "finalized",
+        "error": null
+      },
+      "overCap": {
+        "signature": "5NUkFGmXso9LcohSNP8PQycmKFFfoGNyBkGprGc7PqxRDSwHNNuK4MWNN5LWTUZG4kBbKLaeAVLd1uzzBpJeEcnt",
+        "status": "finalized",
+        "error": {
+          "InstructionError": [
+            1,
+            {
+              "Custom": 6006
+            }
+          ]
+        }
+      },
+      "listing": {
+        "signature": "3UXhF44sUUZAUM1saPqkQ9xRnUvJrdMVLmruKLWHeWfVM8jnYoJpvqMBB7QHRKPutunTDFwUqoSndgcXaYCZaRFw",
+        "status": "finalized",
+        "error": null
+      },
+      "sale": {
+        "signature": "3TSeHDk5p9sED3nEmgNgBbAUWGsMaPpXHrJ99Vo5fb39rinuRQnRhAjpL4DRMdbv6snPy4r1fGg7e3CvXBgQc3zN",
+        "status": "finalized",
+        "error": null
+      }
+    },
+    "saleTokenChanges": [
+      {
+        "mint": "6BCiFTSqMLDchK141yZsYF5aPwDkTCx57T6YCkqW98JY",
+        "owner": "GGt6mwu7DFzz96aVfLLeyvBFwXPUp1ipcDw5ZgJmeUBr",
+        "decimals": 2,
+        "amount": 2558
+      },
+      {
+        "mint": "6BCiFTSqMLDchK141yZsYF5aPwDkTCx57T6YCkqW98JY",
+        "owner": "5coagnKL9pD4mfn4RL1KtWfMZ6jTmBTubQ2G7kUNhJud",
+        "decimals": 2,
+        "amount": 55
+      },
+      {
+        "mint": "6BCiFTSqMLDchK141yZsYF5aPwDkTCx57T6YCkqW98JY",
+        "owner": "9AAHfm9yq2SDLj65nAi9uAUSZsLvKnE5FqcFMW7sXEqL",
+        "decimals": 2,
+        "amount": 137
+      },
+      {
+        "mint": "6BCiFTSqMLDchK141yZsYF5aPwDkTCx57T6YCkqW98JY",
+        "owner": "8nifdTLffi5WBL65XdsHNcesMqnSjRkNiZkbHmgmmz6N",
+        "decimals": 2,
+        "amount": -2750
+      },
+      {
+        "mint": "8eWN3xS4NkUSo1vbTHZTGt8wEckndm2VEt81hAFb6Dvs",
+        "owner": "Bj8Qq1GrkRtxmnMHU6hq9tLb8cnrNSGaMaM6eGdLXh7b",
+        "decimals": 0,
+        "amount": -1
+      },
+      {
+        "mint": "8eWN3xS4NkUSo1vbTHZTGt8wEckndm2VEt81hAFb6Dvs",
+        "owner": "8nifdTLffi5WBL65XdsHNcesMqnSjRkNiZkbHmgmmz6N",
+        "decimals": 0,
+        "amount": 1
+      }
+    ],
+    "reloadAfterResale": "completed progress restored"
   }
 }
