@@ -4,7 +4,7 @@ Tickets with a resale cap, for student clubs and small venues.
 
 The organizer sets a face price, maximum resale markup and royalty. A fan can buy a ticket, list it within the cap, or cancel a listing. A completed resale pays the seller, organizer and platform atomically.
 
-[Public preview](https://fairtix-whu.vercel.app) · [Deck and local walkthrough](https://fairtix-whu.vercel.app/project)
+[Public devnet demo](https://fairtix-whu.vercel.app) · [Deck and devnet walkthrough](https://fairtix-whu.vercel.app/project)
 
 This is a Solana test-credit prototype. It does not take real euro payments or admit anyone to a real event.
 
@@ -53,9 +53,9 @@ Open http://localhost:3034. The seed creates a clearly labeled example event. Te
 
 ## Email sign-in
 
-The Privy integration is implemented but requires your public app ID. See [the setup guide](docs/privy-setup.md). Email users receive an embedded Solana wallet; Phantom is also available through Privy’s Solana connectors. No Privy secret is needed by this frontend.
+Email sign-in is configured on the public app and was confirmed by the project owner on 2 October 2026. See [the setup guide](docs/privy-setup.md). Email users receive an embedded Solana wallet; Phantom is also available through Privy’s Solana connectors. No Privy secret is needed by this frontend.
 
-Until configured, the app uses explicitly labeled demo accounts stored in the browser. Signing out clears these test identities. They must never hold real funds.
+The app also offers explicitly labeled demo accounts stored in the browser. Signing out clears these test identities. They must never hold real funds.
 
 ## Deploy to devnet
 
@@ -71,15 +71,17 @@ Client variables: `NEXT_PUBLIC_PRIVY_APP_ID` and `NEXT_PUBLIC_SITE_URL`. Changin
 
 ## Verification
 
-`npm run test:chain` checks real token balances, mint supply and transaction failures on a deployed local validator. The recorded results are in [docs/chain-verification.json](docs/chain-verification.json). They currently document localnet, not a devnet deployment.
+`npm run test:chain` checks real token balances, mint supply and transaction failures against the configured deployment. The recorded results in [docs/chain-verification.json](docs/chain-verification.json) now document 13 successful checks on devnet, with transaction signatures. The earlier local run is preserved in [docs/local-chain-verification.json](docs/local-chain-verification.json). Deployed program bytes were compared with the tested binaries; addresses, deployment receipts and SHA-256 hashes are in [docs/devnet-deployment.json](docs/devnet-deployment.json).
 
-`npm run test:http` checks the live state endpoint, origin and input validation, sponsor signatures and unsigned relay rejection. Start the local app before running it. Browser checks are recorded in [docs/browser-verification.md](docs/browser-verification.md).
+`npm run test:http` checks the live state endpoint, origin and input validation, sponsor signatures and unsigned relay rejection. Start the local app before running it. For the public deployment, set `FAIRTIX_TEST_URL=https://fairtix-whu.vercel.app` and `FAIRTIX_TEST_NETWORK=devnet`. Browser checks are recorded in [docs/browser-verification.md](docs/browser-verification.md).
+
+`npx tsx scripts/test-rpc.ts` checks bounded recovery for HTTP and JSON-RPC 429 responses, request serialization and plain retry messages. Transaction confirmation uses HTTP polling to avoid a WebSocket subscription for every serverless request. The public RPC remains a shared service and can still throttle under load.
 
 `npm run typecheck` checks the full app and integration. `npm run build` produces the Next.js deployment. Private keys, environment files and validator ledgers are excluded from Git and Vercel uploads.
 
 ## Limits
 
-The public devnet rollout awaits sponsor funding. Email sign-in awaits a Privy app ID. No organizer testimonial or commitment is claimed. Demo credits have no euro value. There is no check-in, seat map, mainnet deployment, identity verification or real-money payment flow. Faucet throttling is best-effort per server process and is intended only for test credits.
+No organizer testimonial or commitment is claimed. Demo credits have no euro value. There is no check-in, seat map, mainnet deployment, identity verification or real-money payment flow. Faucet throttling is best-effort per server process and is intended only for test credits.
 
 ## Challenge
 

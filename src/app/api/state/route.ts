@@ -1,4 +1,5 @@
 import { getSnapshot } from "@/lib/server";
+import { requestErrorMessage } from "@/lib/http";
 export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   try {
@@ -14,10 +15,7 @@ export async function GET(request: Request) {
     return Response.json(
       {
         ready: false,
-        error:
-          e instanceof Error
-            ? e.message
-            : "The ticket ledger is unavailable. Try refreshing in a moment.",
+        error: requestErrorMessage(e),
       },
       { status: 503 },
     );

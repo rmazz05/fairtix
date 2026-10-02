@@ -30,6 +30,16 @@ import {
 import type { ActionInput, Receipt } from "../src/lib/types";
 
 loadEnvConfig(process.cwd());
+if (process.env.SOLANA_NETWORK === "devnet") {
+  const originalFetch = globalThis.fetch;
+  let nextRequest = 0;
+  globalThis.fetch = async (input, options) => {
+    const wait = Math.max(0, nextRequest - Date.now());
+    nextRequest = Date.now() + wait + 500;
+    if (wait) await new Promise((resolve) => setTimeout(resolve, wait));
+    return originalFetch(input, options);
+  };
+}
 async function main() {
   const payer = sponsor(),
     rpc = connection(),
@@ -62,7 +72,7 @@ async function main() {
   }
   const details = {
     name: "Integration test",
-    venue: "Local validator",
+    venue: "Automated test",
     date: Math.floor(Date.now() / 1000) + 86_400,
     facePrice: 2500,
     supply: 2,
@@ -76,6 +86,19 @@ async function main() {
     new BN(Date.now()),
     details,
     "https://fairtix-whu.vercel.app/api/metadata",
+  );
+  const envBefore = readFileSync(".env.local", "utf8");
+  const excludedBefore = new Set(
+    (process.env.FAIRTIX_EXCLUDED_EVENTS || "").split(",").filter(Boolean),
+  );
+  excludedBefore.add(creation.event.toBase58());
+  const exclusionLine = `FAIRTIX_EXCLUDED_EVENTS=${[...excludedBefore].join(",")}`;
+  writeFileSync(
+    ".env.local",
+    /^FAIRTIX_EXCLUDED_EVENTS=/m.test(envBefore)
+      ? envBefore.replace(/^FAIRTIX_EXCLUDED_EVENTS=.*$/m, exclusionLine)
+      : `${envBefore.trimEnd()}\n${exclusionLine}\n`,
+    { mode: 0o600 },
   );
   const createdSig = await provider.sendAndConfirm(
     transaction([creation.instruction]),
@@ -317,7 +340,7 @@ async function main() {
       2,
     ) + "\n",
   );
-  if (process.env.SOLANA_NETWORK === "localnet") {
+  {
     const env = readFileSync(".env.local", "utf8");
     const excluded = new Set(
       (process.env.FAIRTIX_EXCLUDED_EVENTS || "").split(",").filter(Boolean),

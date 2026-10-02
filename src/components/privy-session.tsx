@@ -42,7 +42,7 @@ export default function PrivySession({ children }: { children: ReactNode }) {
 function Bridge({ children }: { children: ReactNode }) {
   const demo = useSession(),
     privy = usePrivy(),
-    { wallets } = useWallets(),
+    { wallets, ready: walletsReady } = useWallets(),
     { signTransaction } = useSignTransaction();
   const wallet = wallets[0];
   return (
@@ -50,19 +50,35 @@ function Bridge({ children }: { children: ReactNode }) {
       value={{
         ...demo,
         emailEnabled: true,
-        ready: privy.ready && demo.ready,
-        address: privy.authenticated && wallet ? wallet.address : demo.address,
+        ready:
+          privy.ready &&
+          walletsReady &&
+          demo.ready &&
+          (!privy.authenticated || !!wallet),
+        address: privy.authenticated ? wallet?.address || null : demo.address,
         label: privy.authenticated
           ? privy.user?.email?.address || "Your account"
           : demo.label,
         mode: privy.authenticated ? "email" : "demo",
         login: privy.login,
+        startDemo: async () => {
+          if (!privy.authenticated) return demo.startDemo();
+          if (!wallet)
+            throw new Error(
+              "Your wallet is still being prepared. Try again in a moment.",
+            );
+          return wallet.address;
+        },
         logout: () => {
           demo.logout();
           void privy.logout();
         },
         sign: async (wire) => {
-          if (!privy.authenticated || !wallet) return demo.sign(wire);
+          if (!privy.authenticated) return demo.sign(wire);
+          if (!wallet)
+            throw new Error(
+              "Your wallet is still being prepared. Try again in a moment.",
+            );
           const { signedTransaction } = await signTransaction({
             transaction: wire,
             wallet,

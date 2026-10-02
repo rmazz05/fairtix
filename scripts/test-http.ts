@@ -14,15 +14,12 @@ async function post(path: string, body: unknown, origin = base) {
 }
 async function main() {
   const state = await fetch(`${base}/api/state`).then((r) => r.json());
-  assert(
-    state.ready,
-    "Start the funded local demo before running the HTTP checks.",
-  );
+  assert(state.ready, "Start the funded demo before running the HTTP checks.");
   const event = state.events.find((e: { example: boolean }) => e.example);
   assert(event);
   assert.equal(state.owner, null);
   assert.equal(state.balance, 0);
-  assert.equal(state.network, "localnet");
+  assert.equal(state.network, process.env.FAIRTIX_TEST_NETWORK || "localnet");
   const crossOrigin = await post(
     "/api/prepare",
     { owner, action: "primary", event: event.address },

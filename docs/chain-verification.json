@@ -1,58 +1,58 @@
 {
-  "network": "localnet",
-  "verifiedAt": "2026-10-01T23:29:21.454Z",
-  "event": "F12ahJx2g6qUUaRTzMntjRzsdWKdezAuiTMRzTHUJcWZ",
+  "network": "devnet",
+  "verifiedAt": "2026-10-02T06:51:25.416Z",
+  "event": "F8wfCfaPQ9cU3c2J4LGobWp93R2NYaxfVbt2V22AZvnb",
   "results": [
     {
       "check": "event mint uses the transfer hook; unsold tickets are not minted",
-      "signature": "GKr43qieFt2MPiP12AEbP9qfQDzsGLr4yC3RNnzKBk8otg2i3AQjL8bUpjXgx3t9Cp1qMak1f2yZ52AACm6Ecv6"
+      "signature": "3Zz17AaajGMtbyDZwL1WYGFDaAHsAvUYNDK4wUABiGgxbC23C7XyYKj4Vd4bBHdQ91f3K1L6T2q675MwZM2E6osC"
     },
     {
       "check": "primary purchase atomically delivers one ticket and pays 97% to the organizer",
-      "signature": "2q89SqH8SFziV2tYjKnbS3xrvWGWDUTxfDAPAHqALopa1rTtTANsuLfhNzBbaMeiU2rMY8x2BCmgD4vJwiX1yHEQ"
+      "signature": "3SD7h5oBA1tZer41JGB8fdeWHeW1xh3sXXG8BF4PkNYjSuSEXa6vhEi6kpRzTBgim9tD1jyX8a3aRxa9rDaDPh5p"
     },
     {
       "check": "ticket account ownership is immutable"
     },
     {
       "check": "changing the account owner cannot bypass the hook",
-      "signature": "Hh5rZtUpuj5Jz53kXnVUoK2nznJZCSNon8AJcYYpyrpqaqwqczA9XptdKyBXaoMXDpDpYvEt5E1zni6ZbcYum7F"
+      "signature": "4qyromzXZtsDQPeq9UUq2Qf1LQDTNW77GinaWPg6qj1JSMPYpbVEcGK9C6mrG81EywsMAJo6pWaYWRNHKZ6ptAHZ"
     },
     {
       "check": "€60 listing rejected against €27.50 cap; ticket stays with seller",
-      "signature": "64njAvkWCGzM3MfhGjAdW7CyeLByps5z48jrbd3EKdBsYZeEKMkuUHiHJoqfsSY7Kr8TFGVYXJs7ZkrDLmDp5wJC"
+      "signature": "gk8HYN9JhRqCHHr86khJrz4x3S7YbshzB1a7MQMRL49riZanpZ2XVxRCuuh87oSfYx6Ks4q52m71U2dL9qHsrNH"
     },
     {
       "check": "direct wallet-to-wallet transfer rejected by the Token-2022 hook",
-      "signature": "nzNptY4b9mFoQkrV9XZ7eijoBH4DHhZP6946yisqgEeMzhTvxWBFdobuVTMDARn5sN56aeLDTqSMmZ7qXuAHZx1"
+      "signature": "XykW7V3Kv45bvNEFhK5X2XYLeX9owJNjQBXP1z7KcfpbhBZHTKLkccUrPqPTFG7qbZTV2kVjdSkue3FYcUqSadx"
     },
     {
       "check": "legal listing holds exactly one ticket in escrow",
-      "signature": "5w6c3jNQwEnKKaqNtcBaCYGZ3CmTbUZ5ReGMHRDcdzUcm9VqwF4upRHcxqGLioc975KJHhsqorAAUng4F2jfdNoo"
+      "signature": "422QQu335wGDmcvTceZVU9FkefkkziHzHkoXmkSB6D26aPFUT35aDnd4f4aHzhTPhmb8rDQe8cntu1nCrdYGpfLt"
     },
     {
       "check": "another account cannot cancel the seller's listing",
-      "signature": "4TV13NbhrBdiUT2ZyeXCXW86k8C2vEmwEibxBZNWrgSPrp2Td3MXjUcq9adCbQ2CAYnpWTfLhv3RebonyvgxVScn"
+      "signature": "5aFJ6UpF8LeLeykUgUtUMwwMn5G2cYoKJyzu8wQo91mNtCzXXGcZAvpFqjGkv6HEsJQ5eBKptNkRikHjbRR2i4zu"
     },
     {
       "check": "seller can cancel and recover their ticket; escrow and listing close",
-      "signature": "gwK7RLUayCFB5BVCrZ5q9gQkNX5irH2dx2wAMF5h5LXGA6Yms8zPibDZratxnR9NpLPMrn4Qwcto6D28Rt6oyUp"
+      "signature": "5fZNSXeQTyCj9WCLo4HSMysZbCGKNgcvNfrfAd55QKTjZgTYFyGf3mUheozVqCfLddX3WnQzxo1UCvWnXTWY651f"
     },
     {
       "check": "an underfunded resale rolls back the first payment and leaves the ticket in escrow",
-      "signature": "5eAUp1173uUH4YfAK7WvrxyWg3eVBW1qKCspJ3WbTNuWHSj3SvsgSjUeta2J6kTMeGu5msmSqzEuqcwrZeAHZpu"
+      "signature": "jCJTdjQqkd5hTdLq84Af8UfSduyo44TWLxNfgxk277PVF6uvR3vhr698by5e1yp6fEPFqRBu5J3Jp3yTnUohSAw"
     },
     {
       "check": "€25.75 resale pays €23.96 seller, €1.28 royalty, €0.51 platform atomically",
-      "signature": "5wN2aZxqYkYYtia8psRqPkoWRdDNoKFkhkkoicXZgz3hWCPW5UHBg6o19iaz7TjVtJZtX57gyiMo3oHouGzj1qBA"
+      "signature": "n2CeDyUssAbrWrJkyoQNdcnjjzBaoKLL9if2cASgGfyjQufRUwKodiRub3Lj9sCCsuoHhNX7XRyTg97yNQnCLn2"
     },
     {
       "check": "supply cannot exceed the organizer's limit",
-      "signature": "5E6DN92dmnfjRm7gnpbTSLtHv3q4MfFagt34DuK9XqXn7EKbtnPVYkqYmErC1dF3UebGYTdZeDv9VLaQL7ctBnET"
+      "signature": "zrrYUyK9HavvuF3fPrJNzDqWRrqMLoiqBjyvLHDqd3D3ZRcbdkpnv1LEXFua7K9mZnxEt1ypScMpVRZkVKPCbiP"
     },
     {
       "check": "the marketplace program rejects an event cap above 25%",
-      "signature": "5SmoSkpG17d8zhVqHsTSFifDQ8B5Ef2xq4djuxweQrKF9gCFByNxwbCXHZxbMSPe9Sd31Da3oUbHbdq3TWxCkMdB"
+      "signature": "5DAZ7L1821T7KykNY15Jd9kbMLAUo2r6mx3HVJrVhwPCtRmdsLB9cGUY9NEp5o5ANY5Fnb9ZdbfM7G4w8WhuMMK1"
     }
   ]
 }

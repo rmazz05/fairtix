@@ -17,14 +17,22 @@ export function checkRequest(request: Request) {
     for (const [key, value] of requests)
       if (value.until < now) requests.delete(key);
 }
+export function requestErrorMessage(error: unknown) {
+  if (!(error instanceof Error))
+    return "The request could not be completed. Try again.";
+  if (
+    /429|too many requests|rate.limit|fetch failed|ETIMEDOUT|TimeoutError|ECONNRESET/i.test(
+      error.message,
+    )
+  )
+    return "Solana's test network is busy. Wait a few seconds, then try again.";
+  return error.message;
+}
 export function errorResponse(error: unknown) {
   return Response.json(
     {
       ok: false,
-      error:
-        error instanceof Error
-          ? error.message
-          : "The request could not be completed. Try again.",
+      error: requestErrorMessage(error),
     },
     { status: 400 },
   );

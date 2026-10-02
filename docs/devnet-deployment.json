@@ -1,0 +1,30 @@
+{
+  "network": "devnet",
+  "market": {
+    "programId": "4NxaE691WuYMs1ScHn6jDByVW8sj6U5w5nT9EXMUaYrF",
+    "signature": "36MsU3XYKrxFqQcigwTJNnmob1M79hkG1vPZPFDwBeJBq5Qmo6tdYL1516ZBmeaui7nboAdzQYMHbPC5ENz2LKmR"
+  },
+  "hook": {
+    "programId": "8WkPYAkswnyywHpY7VcCwVMsCgmDzMrDtLuT9ZzGyoWD",
+    "signature": "3n5JBqkWMoZyks3J5aZdBHwSCu7X2uiu7TY9yNv572SvU4c7YGQxKqYhG1UJTCgw26mXgUmWseN66SiZizVJqYba"
+  },
+  "deployedAt": "2026-10-02T06:30:09.240260+00:00",
+  "binaryVerification": [
+    {
+      "program": "4NxaE691WuYMs1ScHn6jDByVW8sj6U5w5nT9EXMUaYrF",
+      "programData": "EUqUmP6hsximmksG9aDuvtQ4PSESR2V2BnbNRS3bZub2",
+      "bytes": 459792,
+      "sha256": "d02fb55d156e7eacdead1674b53e2cbb20d8782a4c7d1c636cebbbbc09fe739d",
+      "matchesTestedBinary": true,
+      "upgradeAuthority": "5coagnKL9pD4mfn4RL1KtWfMZ6jTmBTubQ2G7kUNhJud"
+    },
+    {
+      "program": "8WkPYAkswnyywHpY7VcCwVMsCgmDzMrDtLuT9ZzGyoWD",
+      "programData": "Bcwrz2fDRMFWhLs6vtU4mNkrWyp2JLkKZYgDC2HM4gTg",
+      "bytes": 210720,
+      "sha256": "bdc96f03a91b1aafe27127c6c3f72cad6e3f7b6918c198526fc1d7b101eeaa9b",
+      "matchesTestedBinary": true,
+      "upgradeAuthority": "5coagnKL9pD4mfn4RL1KtWfMZ6jTmBTubQ2G7kUNhJud"
+    }
+  ]
+}

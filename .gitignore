@@ -1,4 +1,6 @@
 node_modules/
+node_modules
+.node_modules-offloaded/
 .next/
 .next-dev/
 .env*
@@ -17,3 +19,5 @@ playwright-report/
 .DS_Store
 *.tsbuildinfo
 .vercel
+
+.next-dev-previous

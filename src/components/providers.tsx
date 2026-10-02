@@ -11,7 +11,7 @@ import {
 } from "react";
 import { DemoSession, useSession } from "./session";
 import type { Snapshot, ActionInput, Prepared, Receipt } from "@/lib/types";
-const PrivySession = dynamic(() => import("./privy-session"), { ssr: false });
+const PrivySession = dynamic(() => import("./privy-session"));
 type AppState = {
   snapshot: Snapshot;
   refresh: () => Promise<void>;
@@ -75,6 +75,7 @@ function State({
       ? loadedSnapshot
       : { ...loadedSnapshot, owner: session.address, balance: 0, tickets: {} };
   const address = useRef(session.address);
+  const firstRefresh = useRef(true);
   address.current = session.address;
   const refresh = useCallback(async () => {
     const owner = address.current;
@@ -93,8 +94,12 @@ function State({
     setSnapshot(state);
   }, []);
   useEffect(() => {
-    if (session.ready) void refresh().catch((e) => setMessage(e.message));
-  }, [session.address, session.ready, refresh]);
+    if (!session.ready) return;
+    const first = firstRefresh.current;
+    firstRefresh.current = false;
+    if (first && initial.ready && session.address === initial.owner) return;
+    void refresh().catch((e) => setMessage(e.message));
+  }, [session.address, session.ready, refresh, initial.ready, initial.owner]);
   const run = useCallback(
     async (input: ActionInput) => {
       if (!snapshot.ready)

@@ -1,6 +1,6 @@
-# Enable email sign-in
+# Email sign-in
 
-Fairtix is ready for a Privy Solana application. This step requires your account; an application cannot be created using an invented app ID.
+The public Fairtix application is configured with Privy App ID `cmuqk9pml01eu0clbtwxi7mln`. The project owner confirmed successful email sign-in and an embedded-wallet transaction on 2 October 2026. No App Secret is used by the frontend. The steps below apply when configuring another deployment.
 
 1. Sign in at https://dashboard.privy.io and create an app named Fairtix.
 2. Enable email as a login method and Solana embedded wallets. Choose automatic wallet creation for users without wallets.

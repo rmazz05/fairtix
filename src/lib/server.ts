@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { randomBytes } from "node:crypto";
-import { AnchorProvider, BN, Program, Wallet } from "@coral-xyz/anchor";
+import { BN, Program, Wallet } from "@coral-xyz/anchor";
 import {
   Connection,
   Keypair,
@@ -20,6 +20,7 @@ import {
   ADMIN,
   CONFIG,
   MARKET,
+  HOOK,
   ata,
   marketProgram,
   createInstruction,
@@ -40,16 +41,47 @@ import type {
 } from "./types";
 import exampleTicket from "./example-event.json";
 
+let cachedRpc: { url: string; value: Connection } | undefined;
+let rpcQueue: Promise<void> = Promise.resolve();
+const pause = (ms: number) =>
+  new Promise<void>((resolve) => setTimeout(resolve, ms));
 export function connection() {
-  return new Connection(
-    process.env.SOLANA_RPC_URL || "https://api.devnet.solana.com",
-    {
-      commitment: "confirmed",
-      disableRetryOnRateLimit: true,
-      fetch: (url, options) =>
-        fetch(url, { ...options, signal: AbortSignal.timeout(8_000) }),
+  const url = process.env.SOLANA_RPC_URL || "https://api.devnet.solana.com";
+  if (cachedRpc?.url === url) return cachedRpc.value;
+  const value = new Connection(url, {
+    commitment: "confirmed",
+    disableRetryOnRateLimit: true,
+    fetch: (target, options) => {
+      const request = rpcQueue.then(async () => {
+        for (let attempt = 0; ; attempt++) {
+          const response = await fetch(target, {
+            ...options,
+            signal: AbortSignal.timeout(8_000),
+          });
+          // Consume the body before starting another request, so the HTTP
+          // connection can be reused. Some RPCs return JSON error 429 with HTTP 200.
+          const body = await response.clone().text();
+          let limited = response.status === 429;
+          try {
+            limited ||= JSON.parse(body)?.error?.code === 429;
+          } catch {}
+          if (!limited || attempt === 3) {
+            await pause(200);
+            return response;
+          }
+          await response.body?.cancel();
+          await pause(750 * (attempt + 1));
+        }
+      });
+      rpcQueue = request.then(
+        () => undefined,
+        () => undefined,
+      );
+      return request;
     },
-  );
+  });
+  cachedRpc = { url, value };
+  return value;
 }
 export function sponsor() {
   const raw =
@@ -78,7 +110,7 @@ export async function guard() {
         throw new Error("Localnet must use a local RPC.");
     } else if (
       (await connection().getGenesisHash()) !==
-      "EtWTRABZaYq6iMfeYKouRu166VU2xqa1"
+      "EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG"
     ) {
       throw new Error("Fairtix only sponsors transactions on Solana devnet.");
     }
@@ -214,53 +246,72 @@ export async function getSnapshot(
   try {
     await guard();
   } catch {
-    if (process.env.FAIRTIX_PREVIEW === "1")
-      return {
-        ...base,
-        message:
-          "Preview. The live demo is awaiting devnet deployment. Purchases are disabled.",
-      };
     throw new Error("The test ledger is unavailable. Try again in a moment.");
   }
   const rpc = connection();
-  const programInfo = await rpc.getAccountInfo(MARKET).catch((error) => {
-    if (process.env.FAIRTIX_PREVIEW === "1") return null;
-    throw error;
-  });
-  if (!programInfo?.executable)
+  const deployment = await rpc.getMultipleAccountsInfo([MARKET, HOOK, CONFIG]);
+  if (
+    !deployment[0]?.executable ||
+    !deployment[1]?.executable ||
+    !deployment[2]?.owner.equals(MARKET)
+  )
     return {
       ...base,
       message:
         "Preview. The live demo is awaiting devnet deployment. Purchases are disabled.",
     };
-  const program = serverProgram(),
-    currency = await config(program);
-  const [events, listings] = await Promise.all([
-    program.account.event.all(),
-    program.account.listing.all(),
-  ]);
+  const program = serverProgram();
+  const currency = program.coder.accounts.decode(
+    "config",
+    deployment[2]!.data,
+  ) as { currencyMint: PublicKey };
+  // Read event and listing accounts together instead of querying the same
+  // program twice. The config was already read in the deployment check.
+  const accounts = await rpc.getProgramAccounts(MARKET);
+  const discriminator = (name: string) =>
+    Buffer.from(
+      program.idl.accounts!.find((a) => a.name === name)!.discriminator,
+    );
+  const eventTag = discriminator("event"),
+    listingTag = discriminator("listing");
+  const events = accounts.filter((a) =>
+    a.account.data.subarray(0, 8).equals(eventTag),
+  );
+  const listings = accounts.filter((a) =>
+    a.account.data.subarray(0, 8).equals(listingTag),
+  );
   const excluded = new Set(
     (process.env.FAIRTIX_EXCLUDED_EVENTS || "").split(","),
   );
   base.events = events
-    .map((r) => eventView(r.publicKey, r.account as EventAccount))
+    .map((r) =>
+      eventView(
+        r.pubkey,
+        program.coder.accounts.decode("event", r.account.data) as EventAccount,
+      ),
+    )
     .filter((e) => !excluded.has(e.address))
     .sort((a, b) => Number(b.example) - Number(a.example) || a.date - b.date);
   base.listings = listings.map((r) =>
-    listingView(r.publicKey, r.account as ListingAccount),
+    listingView(
+      r.pubkey,
+      program.coder.accounts.decode(
+        "listing",
+        r.account.data,
+      ) as ListingAccount,
+    ),
   );
   if (owner) {
     const key = new PublicKey(owner);
-    const [currencyBalance, tokenAccounts] = await Promise.all([
-      balance(currency.currencyMint, key),
-      rpc.getTokenAccountsByOwner(key, { programId: TOKEN_2022_PROGRAM_ID }),
-    ]);
-    base.balance = currencyBalance;
+    const tokenAccounts = await rpc.getTokenAccountsByOwner(key, {
+      programId: TOKEN_2022_PROGRAM_ID,
+    });
     for (const account of tokenAccounts.value) {
       const mint = new PublicKey(
         account.account.data.subarray(0, 32),
       ).toBase58();
       const amount = Number(account.account.data.readBigUInt64LE(64));
+      if (mint === currency.currencyMint.toBase58()) base.balance += amount;
       const event = base.events.find((e) => e.mint === mint);
       if (event && amount > 0)
         base.tickets[event.address] =
@@ -449,6 +500,43 @@ export async function prepare(input: ActionInput): Promise<Prepared> {
   };
 }
 
+async function confirmOverHttp(signature: string, blockhash: string) {
+  const rpc = connection();
+  const until = Date.now() + 30_000;
+  for (let attempt = 0; Date.now() < until; attempt++) {
+    const { value } = await rpc.getSignatureStatuses([signature], {
+      searchTransactionHistory: true,
+    });
+    const status = value[0];
+    if (
+      status &&
+      (status.confirmationStatus === "confirmed" ||
+        status.confirmationStatus === "finalized")
+    )
+      return status;
+    if (attempt % 4 === 3 && !(await rpc.isBlockhashValid(blockhash)).value)
+      throw new Error("The transaction expired. Refresh and try again.");
+    await pause(750);
+  }
+  throw new Error(
+    "Confirmation is taking longer than expected. Check My tickets before trying again.",
+  );
+}
+async function sendSponsored(tx: Transaction) {
+  const payer = sponsor(),
+    rpc = connection();
+  const block = await rpc.getLatestBlockhash();
+  tx.feePayer = payer.publicKey;
+  tx.recentBlockhash = block.blockhash;
+  tx.sign(payer);
+  const signature = await rpc.sendRawTransaction(tx.serialize(), {
+    maxRetries: 2,
+  });
+  const status = await confirmOverHttp(signature, block.blockhash);
+  if (status.err)
+    throw new Error("The test-credit request was rejected. Try again.");
+  return signature;
+}
 export async function relay(encoded: string): Promise<Receipt> {
   await guard();
   if (encoded.length > 3000) throw new Error("The transaction is too large.");
@@ -463,16 +551,9 @@ export async function relay(encoded: string): Promise<Receipt> {
     skipPreflight: true,
     maxRetries: 2,
   });
-  const recent = await rpc.getLatestBlockhash();
-  const result = await rpc.confirmTransaction(
-    {
-      signature,
-      blockhash: tx.recentBlockhash!,
-      lastValidBlockHeight: recent.lastValidBlockHeight,
-    },
-    "confirmed",
-  );
-  if (!result.value.err) return { ok: true, signature };
+  // HTTP polling avoids opening a WebSocket for every serverless request.
+  const result = await confirmOverHttp(signature, tx.recentBlockhash!);
+  if (!result.err) return { ok: true, signature };
   const receipt = await rpc.getTransaction(signature, {
     maxSupportedTransactionVersion: 0,
   });
@@ -526,10 +607,7 @@ export async function faucet(ownerString: string): Promise<Receipt> {
       TOKEN_2022_PROGRAM_ID,
     ),
   ]);
-  const provider = new AnchorProvider(connection(), new Wallet(payer), {
-    commitment: "confirmed",
-  });
-  const signature = await provider.sendAndConfirm(tx);
+  const signature = await sendSponsored(tx);
   return { ok: true, signature };
 }
 export async function prepareRecipient(destination: string, eventKey: string) {
@@ -538,10 +616,7 @@ export async function prepareRecipient(destination: string, eventKey: string) {
     owner = new PublicKey(destination),
     e = await loadEvent(serverProgram(), eventKey),
     mint = new PublicKey(e.mint);
-  const provider = new AnchorProvider(connection(), new Wallet(payer), {
-    commitment: "confirmed",
-  });
-  return provider.sendAndConfirm(
+  return sendSponsored(
     transaction([
       createAssociatedTokenAccountIdempotentInstruction(
         payer.publicKey,

@@ -13,18 +13,18 @@ export default function Page() {
         </p>
       </div>
       <section className="project-demo">
-        <h2>The local demo.</h2>
+        <h2>The devnet demo.</h2>
         <p>
-          This 89-second walkthrough shows actual transactions on a local Solana
-          validator. It joins captured browser states with cuts. All amounts are
-          test credits.
+          This 89-second walkthrough shows actual transactions on Solana devnet
+          through a local browser interface. It joins captured browser states
+          with cuts. All amounts are test credits.
         </p>
         <video
           controls
           playsInline
           preload="metadata"
           poster="/demo-poster.jpg"
-          aria-label="Fairtix local demo walkthrough, with captions"
+          aria-label="Fairtix devnet demo walkthrough, with captions"
         >
           <source src="/demo.mp4" type="video/mp4" />
         </video>
@@ -67,11 +67,11 @@ export default function Page() {
         </div>
       </section>
       <section className="project-status">
-        <h2>Before submission.</h2>
+        <h2>The proposed pilot.</h2>
         <p>
-          The public devnet deployment awaits test SOL. Email sign-in awaits a
-          Privy app ID. The product brief also asks for a real club quote, which
-          has not been obtained.
+          The first pilot would be a WHU student club. Its organizer would
+          choose the ticket price, resale cap and royalty. No club has committed
+          to a pilot, and we have not collected organizer feedback yet.
         </p>
         <p>
           Cash side deals remain possible. Program upgrade authority is

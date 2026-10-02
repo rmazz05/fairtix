@@ -9,9 +9,12 @@ docs
 .next
 .next-dev
 node_modules
+.node_modules-offloaded
 *.tsbuildinfo
 .impeccable
 .presentation-build
 .demo-recording
 deliverables
 output
+
+.next-dev-previous

@@ -4,6 +4,7 @@ import { Providers } from "@/components/providers";
 import { Shell } from "@/components/shell";
 import { getSnapshot, network } from "@/lib/server";
 import { ADMIN } from "@/lib/chain";
+import { requestErrorMessage } from "@/lib/http";
 import type { Snapshot } from "@/lib/types";
 import "./globals.css";
 const archivo = Archivo({
@@ -43,7 +44,7 @@ export default async function RootLayout({
     owner: null,
     ready: false,
     network: network(),
-    message: e instanceof Error ? e.message : "The test ledger is unavailable.",
+    message: requestErrorMessage(e),
     events: [],
     listings: [],
     tickets: {},

@@ -172,7 +172,7 @@ export function EventPage({ address }: { address: string }) {
             >
               {event.sold >= event.supply
                 ? "Primary tickets sold out"
-                : buying === "primary"
+                : buying
                   ? "Buying ticket…"
                   : `Pay ${euros(event.facePrice)}`}
               <ArrowRight size={18} />

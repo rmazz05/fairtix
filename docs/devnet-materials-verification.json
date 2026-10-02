@@ -1,0 +1,26 @@
+{
+  "verifiedAt": "2026-10-02T07:49:34.512Z",
+  "projectDescription": "devnet",
+  "downloads": [
+    {
+      "name": "pitch.pdf",
+      "bytes": 394290,
+      "sha256": "9c6002a8532a30ea6895673c54d0858b1111e15ec604646ee319c65c1cc65bd6"
+    },
+    {
+      "name": "pitch.pptx",
+      "bytes": 96124,
+      "sha256": "965aee51247693d7d95ec8a82ebc12edd46b107573d92661def6ae969a4a750a"
+    },
+    {
+      "name": "demo.mp4",
+      "bytes": 610399,
+      "sha256": "b234a7e05a687d2709ef0bc2596927e0bb7c8a80670f8d8ab1cbd73200d02709"
+    },
+    {
+      "name": "demo-poster.jpg",
+      "bytes": 57743,
+      "sha256": "08353ab78c88af7a945e5da2f00a274a8e37a8f2f84eec2768144731fd721f4a"
+    }
+  ]
+}
