@@ -15,13 +15,8 @@ export default function Page() {
       <section className="project-demo">
         <h2>The interactive demo.</h2>
         <p>
-          Use two demo accounts to buy a ticket, test the resale cap and
-          complete a resale. All amounts are test credits.
-        </p>
-        <p className="muted">
-          An asking price of €60 fails against the €27.50 cap. A signed direct
-          transfer fails. A €27.50 resale delivers the ticket and adds €1.37 to
-          the organizer’s royalty balance.
+          List a ticket as the seller, then buy it as the buyer. Both sides stay
+          on one screen, with links to every Solana transaction.
         </p>
         <Link href="/demo" className="button outline">
           Try the demo yourself →
@@ -44,22 +39,6 @@ export default function Page() {
             Read the deck →
           </a>
         </div>
-      </section>
-      <section className="project-status">
-        <h2>The proposed pilot.</h2>
-        <p>
-          The first pilot would be a WHU student club. Its organizer would
-          choose the ticket price, resale cap and royalty. No club has committed
-          to a pilot, and we have not collected organizer feedback yet.
-        </p>
-        <p>
-          Cash side deals remain possible. Program upgrade authority is
-          retained. This prototype does not accept euro payments or admit anyone
-          to an event.
-        </p>
-        <Link href="/" className="text-button">
-          Open the ticket app →
-        </Link>
       </section>
     </div>
   );

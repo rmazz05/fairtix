@@ -77,11 +77,6 @@ export function EventPage({ address }: { address: string }) {
           ← All events
         </Link>
         <h1>{event.name}</h1>
-        <p>
-          {event.example
-            ? "Example event. Test credits only; this ticket does not admit you to a real event."
-            : "General admission. This demo uses test credits, with no real event entry."}
-        </p>
       </div>
       <div className="event-layout">
         <div>
@@ -184,15 +179,6 @@ export function EventPage({ address }: { address: string }) {
               <ArrowRight size={18} />
             </button>
           )}
-          <p className="checkout-note">
-            Test credits only.{" "}
-            {session.address
-              ? "We cover the transaction fee."
-              : session.emailEnabled
-                ? "Sign in with email to buy."
-                : "A demo account will be created in this browser."}{" "}
-            If needed, we add €100 in test credits.
-          </p>
           {receipt && (
             <div
               className={receipt.ok ? "purchase-confirmation" : "error-text"}

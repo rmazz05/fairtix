@@ -62,8 +62,8 @@ export function Organizer() {
             {!app.snapshot.ready
               ? "Preview of the organizer view. No sales have been recorded here."
               : example
-                ? "Live results from the example event. All amounts are test credits."
-                : "Sales and royalties recorded by your events. All amounts are test credits."}
+                ? "Sales and royalties for Friday, after lectures."
+                : "Sales and royalties recorded by your events."}
           </p>
         </div>
         <Link href="/create" className="button">

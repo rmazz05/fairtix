@@ -18,7 +18,8 @@
     "test:http": "tsx scripts/test-http.ts",
     "test:rpc": "tsx scripts/test-rpc.ts",
     "test:resilience": "tsx scripts/test-resilience.ts",
-    "test": "npm run test:rpc && npm run test:resilience",
+    "test:demo": "tsx scripts/test-demo.ts",
+    "test": "npm run test:rpc && npm run test:resilience && npm run test:demo",
     "setup:local": "tsx scripts/setup-local.ts && npm run keys:local",
     "rpc:check": "tsx scripts/check-rpc.ts"
   },

@@ -53,17 +53,15 @@ export function Shell({ children }: { children: ReactNode }) {
     [account, setAccount] = useState(false);
   return (
     <>
-      <div className="demo-notice">
-        <div className="container">
-          Demo. Test credits only. <span>No real payments.</span>
-        </div>
-      </div>
       <header className="site-header container">
         <Link className="wordmark" href="/" aria-label="Fairtix home">
           fairtix<span>.</span>
         </Link>
         <nav aria-label="Main navigation">
-          <Link aria-current={pathname === "/" ? "page" : undefined} href="/">
+          <Link
+            aria-current={pathname === "/" ? "page" : undefined}
+            href="/#events"
+          >
             Events
           </Link>
           <Link
@@ -128,10 +126,9 @@ export function Shell({ children }: { children: ReactNode }) {
         <Link className="wordmark" href="/">
           fairtix.
         </Link>
-        <p>Tickets for the people going.</p>
         <div>
           <Link href="/demo">Try the demo</Link>
-          <Link href="/about">The demo & its limits</Link>
+          <Link href="/about">About Fairtix</Link>
           <Link href="/project">WHU project</Link>
         </div>
       </footer>
@@ -150,11 +147,11 @@ export function Shell({ children }: { children: ReactNode }) {
             <>
               <p>
                 {session.mode === "demo"
-                  ? "This account is stored in this browser. Use it for this test-credit demo only."
+                  ? "Saved in this browser."
                   : session.label}
               </p>
               <dl className="account-details">
-                <dt>Test credits</dt>
+                <dt>Demo balance</dt>
                 <dd className="mono">{euros(app.snapshot.balance)}</dd>
                 <dt>Account</dt>
                 <dd className="mono">{shortAddress(session.address)}</dd>
@@ -166,7 +163,7 @@ export function Shell({ children }: { children: ReactNode }) {
                   void app.addCredits().catch((e) => app.setMessage(e.message));
                 }}
               >
-                Add €100 in test credits
+                Add €100 to demo balance
               </button>
               <>
                 {session.mode === "demo" && (
@@ -207,10 +204,7 @@ export function Shell({ children }: { children: ReactNode }) {
             </>
           ) : (
             <>
-              <p>
-                A demo account lets you buy and resell tickets with test
-                credits. No wallet extension needed.
-              </p>
+              <p>Buy and resell tickets in this browser.</p>
               <button
                 className="button"
                 onClick={() => {

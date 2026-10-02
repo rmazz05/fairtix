@@ -1148,41 +1148,291 @@ td a {
   flex-wrap: wrap;
   gap: 24px;
 }
-.demo-guide {
-  max-width: 880px;
-}
-.demo-accounts {
-  border-block: 1px solid var(--rule);
-  padding-block: 32px;
-}
-.demo-accounts h2,
-.demo-steps h2 {
-  font-size: 24px;
-}
-.demo-accounts p,
-.demo-steps p {
-  max-width: 65ch;
-}
-.demo-account-actions,
-.demo-step-links {
+.hero.hero-centered {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  gap: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: min(680px, calc(100svh - 96px));
+  padding: 112px 0 120px;
+  text-align: center;
 }
-.demo-account-status {
-  margin-bottom: 0;
+.hero-centered h1 {
+  font-size: clamp(48px, 6vw, 80px);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+.hero-centered > p {
+  margin: 28px 0 32px;
+  font-size: 18px;
+  max-width: 40ch;
+  text-wrap: balance;
+}
+.hero-centered > .button {
+  min-width: 188px;
+}
+.hero-centered > .text-button {
+  margin-top: 16px;
+}
+.demo-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 56px 0 48px;
+}
+.demo-heading h1 {
+  font-size: 42px;
+  text-wrap: balance;
+}
+.demo-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 64px;
+}
+.demo-person {
+  min-width: 0;
+  border-top: 1px solid var(--ink);
+}
+.demo-person-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 0 28px;
+}
+.demo-person-heading h2 {
+  font-size: 30px;
+}
+.demo-person-heading > span {
+  font-size: 13px;
   color: var(--muted);
 }
-.demo-steps {
-  padding-left: 24px;
-  margin-block: 40px;
+.demo-split-ticket .ticket-main {
+  min-height: 236px;
+  padding: 24px;
 }
-.demo-steps > li {
-  padding-left: 8px;
-  margin-bottom: 40px;
+.demo-split-ticket .ticket-main h3 {
+  font-size: 25px;
+  text-wrap: balance;
 }
-.demo-steps > li::marker {
+.demo-split-ticket .ticket-date {
+  margin-top: 24px;
+}
+.demo-split-ticket .ticket-stub {
+  padding: 24px 16px;
+}
+.demo-split-ticket .ticket-price {
+  font-size: 24px;
+}
+.demo-list-form {
+  margin-top: 32px;
+}
+.demo-list-form > label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.demo-price-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--ink);
+  border-radius: 6px;
+  padding: 12px 16px;
+  background: var(--card);
+  font-size: 22px;
   font-family: var(--font-mono), monospace;
+}
+.demo-price-field:focus-within {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+.demo-price-field input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+}
+.demo-price-result {
+  font-size: 14px;
+}
+.demo-price-result > p {
+  margin-top: 12px;
+}
+.demo-list-form > .button {
+  width: 100%;
+  margin-top: 20px;
+}
+.demo-transfer-test {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+}
+.demo-transfer-test summary {
+  cursor: pointer;
+  width: fit-content;
+  min-height: 44px;
+  padding-block: 12px;
+}
+.demo-transfer-test > p {
+  margin-top: 8px;
+}
+.demo-transfer-test .text-button {
+  margin-top: 4px;
+}
+.demo-buyer-waiting {
+  min-height: 238px;
+  border: 1px dashed var(--rule);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+.demo-buy-button {
+  width: 100%;
+  margin-top: 32px;
+}
+.demo-confirmation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--valid);
+  margin-top: 28px;
+}
+.demo-seller-receipt {
+  min-height: 238px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 20px;
+  color: var(--valid);
+  border-bottom: 1px solid var(--rule);
+}
+.demo-payment-split {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px 24px;
+  padding-top: 24px;
+  margin: 24px 0 0;
+  border-top: 1px solid var(--rule);
+  font-size: 14px;
+}
+.demo-payment-split dd {
+  margin: 0;
+  text-align: right;
+}
+.demo-feedback {
+  font-size: 14px;
+  margin-top: 24px;
+}
+.demo-feedback:empty {
+  display: none;
+}
+.demo-transactions {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--ink);
+}
+.demo-transactions h2 {
+  font-size: 20px;
+}
+.demo-transactions ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+.demo-transactions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-size: 13px;
+}
+.demo-restart {
+  margin-top: 24px;
+}
+@media (max-width: 1050px) {
+  .demo-split {
+    gap: 32px;
+  }
+  .demo-split-ticket {
+    grid-template-columns: minmax(0, 1fr) 128px;
+  }
+  .demo-split-ticket .ticket-main {
+    padding: 20px 16px;
+  }
+  .demo-split-ticket .ticket-main h3 {
+    font-size: 22px;
+  }
+  .demo-split-ticket .ticket-stub {
+    padding: 20px 12px;
+  }
+  .demo-split-ticket .ticket-price {
+    font-size: 22px;
+  }
+}
+@media (max-width: 760px) {
+  .hero.hero-centered {
+    min-height: calc(100svh - 116px);
+    padding: 72px 0 88px;
+  }
+  .hero-centered > p {
+    font-size: 16px;
+    max-width: 30ch;
+  }
+  .demo-heading {
+    padding: 40px 0 32px;
+    display: block;
+  }
+  .demo-heading h1 {
+    font-size: 36px;
+  }
+  .demo-heading .text-button {
+    margin-top: 8px;
+  }
+  .demo-split {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .demo-person-heading {
+    padding: 20px 0;
+  }
+  .demo-person-heading h2 {
+    font-size: 28px;
+  }
+  .demo-split-ticket {
+    grid-template-columns: minmax(0, 1fr) 126px;
+  }
+  .demo-split-ticket .ticket-main {
+    min-height: 220px;
+  }
+  .demo-split-ticket .ticket-main h3 {
+    font-size: 23px;
+  }
+  .demo-transactions {
+    margin-top: 36px;
+  }
+  .demo-transactions ol {
+    display: block;
+  }
 }
 .program-details p {
   margin: 0 0 8px;

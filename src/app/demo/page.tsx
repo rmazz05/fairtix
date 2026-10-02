@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { DemoGuide } from "@/components/demo-guide";
+import { DemoResale } from "@/components/demo-resale";
 
 export const metadata: Metadata = { title: "Try the demo" };
 
 export default function Page() {
-  return <DemoGuide />;
+  return <DemoResale />;
 }

@@ -19,12 +19,14 @@ export function Ticket({
   return (
     <article className={`ticket ${className}`}>
       <div className="ticket-main">
-        <p className="ticket-category">
-          General admission{event.example ? " · Example event" : ""}
-        </p>
+        <p className="ticket-category">General admission</p>
         <h3>{event.name}</h3>
         <p className="ticket-date mono">{eventDate(event.date)}</p>
-        <p className="ticket-venue">{event.venue}</p>
+        <p className="ticket-venue">
+          {event.example
+            ? event.venue.replace(/\s*·\s*example venue$/i, "")
+            : event.venue}
+        </p>
         {children}
       </div>
       <div className="ticket-stub">{side}</div>

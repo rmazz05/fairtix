@@ -629,7 +629,7 @@ export async function relay(encoded: string): Promise<Receipt> {
         : code === "OverCap"
           ? "The asking price is above this event's resale cap."
           : code === "InsufficientFunds"
-            ? "You need more test credits. Add €100, then try again."
+            ? "Your demo balance is too low. Add €100, then try again."
             : code === "SoldOut"
               ? "This event is sold out."
               : "The ticket action was rejected. Refresh the event and try again.",

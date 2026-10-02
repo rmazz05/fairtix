@@ -174,7 +174,7 @@ export function CreateEvent() {
           </fieldset>
           <p className="form-fee">
             Fairtix takes 3% of primary sales and 2% of resales. Buyers pay the
-            displayed price. This demo uses test credits.
+            displayed price.
           </p>
           <button
             className="button signal"

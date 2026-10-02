@@ -52,9 +52,8 @@ export default function Page() {
           <section>
             <h2>The limits matter.</h2>
             <p>
-              This uses test credits, with no real euro payments or event
-              admission. Door check-in, identity checks and seated tickets are
-              outside the MVP.
+              The app runs on Solana devnet. Euro checkout, door check-in,
+              identity checks and seated tickets are outside the MVP.
             </p>
             <p>
               Cash side deals remain possible. Fairtix only enforces the price
@@ -67,22 +66,14 @@ export default function Page() {
               software.
             </p>
             <p>
-              Demo accounts are stored in your browser. They are suitable for
-              test credits only. Email sign-in requires a configured Privy
-              application.
+              Demo accounts are stored in your browser. Email sign-in uses a
+              Privy embedded wallet.
             </p>
           </section>
         </div>
         <aside>
-          <h3>Try the three checks.</h3>
-          <p>On the home page, ask €60 for a ticket capped at €27.50.</p>
-          <p>In My tickets, try sending the ticket directly.</p>
-          <p>
-            Then list it within the cap and buy it from another account. Check
-            the organizer’s royalty.
-          </p>
-          <Link href="/" className="text-button">
-            Open the demo →
+          <Link href="/demo" className="button">
+            Try the demo →
           </Link>
           <details className="program-details">
             <summary>Program details</summary>

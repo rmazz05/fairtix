@@ -4,7 +4,7 @@
 
 Fairtix lets a student club or small venue sell general-admission tickets, set the maximum resale price, and receive a royalty when a ticket changes hands. A buyer whose plans change can list their ticket within that cap or cancel an unsold listing.
 
-[Try the app](https://fairtix-whu.vercel.app) · [Try both sides of a resale](https://fairtix-whu.vercel.app/demo) · [Pitch deck](https://fairtix-whu.vercel.app/pitch.pdf)
+[Try the app](https://fairtix-whu.vercel.app) · [Try a resale](https://fairtix-whu.vercel.app/demo) · [Pitch deck](https://fairtix-whu.vercel.app/pitch.pdf)
 
 This is a working **Solana devnet prototype** built for the WHU challenge. All displayed euro amounts represent valueless test credits. There are no real payments or event admissions.
 
@@ -27,13 +27,15 @@ Royalties and platform fees round down to whole cents; the seller receives the r
 
 ## Try the working demo
 
-Open [the demo guide](https://fairtix-whu.vercel.app/demo). No email, browser wallet or SOL balance is required.
+Open [the resale demo](https://fairtix-whu.vercel.app/demo). Seller and buyer appear on one screen; no sign-in or wallet extension is required.
 
-1. Select **account 1, the seller**. Buy the example ticket. Checkout adds test credits if needed and the server covers transaction fees.
-2. In **My tickets**, try listing at €60. Then open **Test the transfer rule** and try a direct transfer. Both attempts have real failed transaction receipts linked to Solana Explorer.
-3. List the ticket at €27.50. Return to the guide and select **account 2, the buyer**. Open the event and buy the resale listing marked **From demo account 1**. Check the buyer's ticket and the organizer's royalty increase.
+1. On the **Seller** side, leave the asking price at €60 and click **List ticket**. The program rejects it and the ticket stays with the seller.
+2. Click **Use €27.50**, then **List ticket**. The listing appears on the **Buyer** side.
+3. Click **Buy ticket for €27.50**. The buyer receives the ticket; the payment breakdown and Solana transaction links appear below.
 
-Both demo accounts stay in the same browser between page visits. Signing out clears their local keys. Do not send real assets to demo accounts. Email sign-in is also available through Privy and creates an embedded Solana wallet; its signing flow was confirmed on the public app.
+The seller can also open **Test a direct transfer** to attempt a signed wallet-to-wallet transfer. It is refused by the transfer hook. The demo prepares its two browser-owned accounts, funds them with test credits and covers network fees. Both sides sign their own real devnet transactions. A pending signed transaction is saved before submission so a lost response or page refresh can resume without signing a duplicate purchase. These demo keys are separate from the app's email account and should never receive real assets.
+
+Email sign-in remains available in the ticket app through Privy and creates an embedded Solana wallet.
 
 An organizer can use **Create an event** to choose a name, venue, date, supply, face price, resale markup and royalty. The markup is bounded to 0–25%; the royalty to 0–10%. These event rules cannot be edited through the current program.
 
@@ -99,7 +101,7 @@ For devnet hosting, RPC configuration and email authentication, see [deployment 
 
 ```bash
 npm run typecheck      # App, chain client and scripts
-npm test               # RPC throttling and read/error recovery; no ledger needed
+npm test               # RPC, read/error and demo recovery; no ledger needed
 npm run build          # Next.js production build
 npm run test:chain     # Requires your funded, seeded deployment
 npm run test:http      # Requires the app running at localhost:3034
@@ -107,7 +109,7 @@ npm run test:http      # Requires the app running at localhost:3034
 
 The recorded [13 devnet chain checks](docs/chain-verification.json) cover bounded supply, primary settlement, immutable token ownership, over-cap and direct-transfer rejection, escrow, cancellation authorization, ticket recovery, insufficient-payment rollback and resale payout. [Local chain results](docs/local-chain-verification.json) are retained separately.
 
-The HTTP suite checks state, input and origin validation, sponsor signatures, unsigned relay rejection, metadata and the attempt-log endpoint. The RPC and resilience suites check HTTP/JSON-RPC throttling, serialized calls, coalesced reads, cache expiry/invalidation, failed-read recovery and errors that must not be mistaken for empty logs. [Browser verification](docs/browser-verification.md) records actual app flows and responsive checks.
+The HTTP suite checks state, input and origin validation, sponsor signatures, unsigned relay rejection, metadata and the attempt-log endpoint. The RPC and resilience suites check HTTP/JSON-RPC throttling, serialized calls, coalesced reads, cache expiry/invalidation, failed-read recovery and errors that must not be mistaken for empty logs. The demo suite checks signed participants, separate listing and purchase, and recovery after a refresh or lost response without duplicate transactions. [Browser verification](docs/browser-verification.md) records actual app flows and responsive checks.
 
 To run HTTP checks against the public deployment:
 
