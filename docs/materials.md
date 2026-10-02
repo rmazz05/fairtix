@@ -1,9 +1,9 @@
 # Submission materials
 
-The public project page hosts the seven-slide PDF, editable PowerPoint and 89-second devnet walkthrough. The deck is a font-embedded PDF with selectable text. The PowerPoint retains editable text and an editable fee table; editing it in an office application requires Archivo, IBM Plex Sans and IBM Plex Mono. These are the fonts specified in the product brief.
+The public project page hosts the eight-slide PDF and 89-second devnet walkthrough. The editable PowerPoint lives at `docs/Fairtix-pitch.pptx` in the repository. It is excluded from the website deployment. The PDF has embedded fonts, selectable text and clickable links to the deployed programs, their source and actual transaction receipts.
 
-All seven slide layouts were rendered and reviewed. Package, slide geometry, font declarations and Artifact Tool import validation passed. Native PowerPoint and Google Slides application behavior have not been tested.
+The deck introduces the product, the resale problem and the organizer's cap, then explains Token-2022 transfer hooks and atomic resale settlement. It closes with devnet evidence, links to the two programs and the live demo's limits. All eight slide layouts were rendered and reviewed. Package, slide geometry, font declarations and Artifact Tool import validation passed. Native PowerPoint and Google Slides application behavior have not been tested. Editing the PowerPoint requires Archivo, IBM Plex Sans and IBM Plex Mono, the product's fonts.
 
-The fee illustration assumes 400 primary tickets at €15, 80 resales at €18, a 20% cap and a 5% organizer royalty. The platform earns €180 + €28.80 = €208.80; organizer resale royalties are €72. None of these figures are observed customer revenue.
+The example follows a €25 ticket with a 10% resale cap. A €60 listing fails. A €27.50 resale pays €25.58 to the seller, €1.37 to the organizer (5%, rounded down to the cent) and €0.55 to Fairtix (2%). These are test credits, not euro revenue. The transfer restriction applies to the programs even when another interface calls them. Cash side payments and wallet sharing remain possible.
 
 The walkthrough contains cuts between actual captured browser states, with captions. It is not a continuous recording. The walkthrough uses a local browser interface connected to Solana devnet. Both programs are deployed publicly; 13 chain checks pass with public receipts. Email login and embedded-wallet transaction signing were confirmed by the project owner. No club quote or commitment is claimed.

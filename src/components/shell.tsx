@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { X, ArrowUpRight, ArrowRight } from "@phosphor-icons/react";
+import { X, ArrowRight } from "@phosphor-icons/react";
 import { useSession } from "./session";
 import { useApp } from "./providers";
 import { euros, shortAddress } from "@/lib/types";
@@ -133,13 +133,6 @@ export function Shell({ children }: { children: ReactNode }) {
           <Link href="/demo">Try the demo</Link>
           <Link href="/about">The demo & its limits</Link>
           <Link href="/project">WHU project</Link>
-          <a
-            href="https://github.com/rmazz05/fairtix"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Source code <ArrowUpRight size={14} />
-          </a>
         </div>
       </footer>
       {account && (

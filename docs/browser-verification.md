@@ -40,4 +40,4 @@ The final public guide was checked at 1280px and 390px, and the home page at 390
 
 The final PDF, editable PowerPoint, MP4 and poster have a single canonical copy under `public/`. Their previously verified byte hashes are in [the material verification report](devnet-materials-verification.json).
 
-The 89-second video shows a local browser interface connected to real devnet transactions, with cuts between captured states and captions. It is not a continuous recording. The seven-slide deck contains no invented organizer endorsement or pilot commitment. Native PowerPoint and Google Slides application behavior has not been tested.
+The 89-second video shows a local browser interface connected to real devnet transactions, with cuts between captured states and captions. It is not a continuous recording. The eight-slide deck contains no invented organizer endorsement or pilot commitment. Native PowerPoint and Google Slides application behavior has not been tested. The PDF is public; the editable PowerPoint stays in the repository.

@@ -126,10 +126,10 @@ FAIRTIX_TEST_URL=https://fairtix-whu.vercel.app FAIRTIX_TEST_NETWORK=devnet npm 
 | `chain/programs/fairtix_market/` | Event creation, bounded issuance, capped listings, cancellation and resale |
 | `chain/programs/fairtix_hook/`   | Token-2022 transfer restriction                                            |
 | `scripts/`                       | Local setup, builds, seed and verification suites                          |
-| `docs/`                          | Setup instructions, deployment evidence and verification records           |
-| `public/`                        | Final pitch PDF, editable deck, captioned video and poster                 |
+| `docs/`                          | Setup instructions, verification records and editable pitch deck           |
+| `public/`                        | Final pitch PDF, captioned video and poster                                |
 
-Private keys, environment files, dependencies, validator ledgers and build output are excluded from Git. Final submission assets have one canonical copy under `public/`.
+Private keys, environment files, dependencies, validator ledgers and build output are excluded from Git. The PDF and walkthrough have one canonical copy under `public/`. The [editable deck](docs/Fairtix-pitch.pptx) stays in the repository and is excluded from the website deployment.
 
 ## Current limits
 

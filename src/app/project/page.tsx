@@ -43,9 +43,9 @@ export default function Page() {
       <section className="project-pitch">
         <h2>The pitch.</h2>
         <p>
-          Seven slides covering the problem, product, Solana integration, fees,
-          first pilot and roadmap. The pilot and revenue figures are
-          assumptions; no organizer commitment is claimed.
+          The resale problem, the organizer’s price cap and how the Solana
+          programs enforce it. Includes links to the deployed programs and
+          actual devnet transactions.
         </p>
         <div className="project-links">
           <a
@@ -55,17 +55,6 @@ export default function Page() {
             rel="noreferrer"
           >
             Read the deck →
-          </a>
-          <a href="/pitch.pptx" className="text-button" download>
-            Editable PowerPoint →
-          </a>
-          <a
-            href="https://github.com/rmazz05/fairtix"
-            className="text-button"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Source and tests →
           </a>
         </div>
       </section>

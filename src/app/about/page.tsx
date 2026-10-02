@@ -90,17 +90,6 @@ export default function Page() {
             <code>{ids.market}</code>
             <p>Transfer hook</p>
             <code>{ids.hook}</code>
-            <p>
-              Program source and tests are in the{" "}
-              <a
-                href="https://github.com/rmazz05/fairtix"
-                target="_blank"
-                rel="noreferrer"
-              >
-                public repository
-              </a>
-              .
-            </p>
           </details>
         </aside>
       </div>
