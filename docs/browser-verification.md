@@ -34,6 +34,8 @@ The full local procedure was then executed with newly generated keys, Agave 4.3.
 
 An intermittent consumed-response error found during the clean run was corrected by draining each upstream RPC response once and returning a fresh response body to the Solana client.
 
+The final public guide was checked at 1280px and 390px, and the home page at 390px. In each case document width matched viewport width. Public buyer selection without email worked. Final captures and the check summary are in `docs/screenshots` and [submission verification](submission-verification.json).
+
 ## Submission materials
 
 The final PDF, editable PowerPoint, MP4 and poster have a single canonical copy under `public/`. Their previously verified byte hashes are in [the material verification report](devnet-materials-verification.json).
