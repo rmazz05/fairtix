@@ -32,15 +32,15 @@
   "downloads": [
     {
       "name": "pitch.pdf",
-      "bytes": 183329,
-      "sha256": "9f65ae2b4c31c08475d79aca783a22de935c0112359478f3ea29e977b086560a"
+      "bytes": 182661,
+      "sha256": "4244e74fccca0b90618e505d9d7b07057fc7789074d6bf68231542d9085fb7aa"
     }
   ],
   "repositoryAssets": [
     {
       "path": "docs/Fairtix-pitch.pptx",
-      "bytes": 158007,
-      "sha256": "58f9808ccfececcd77617779fdc18f9827ea7c64814ff5a7f1b07932be4029b7"
+      "bytes": 156156,
+      "sha256": "8c580f8527f992b6cd61dc9ff687d750520dc1b77871a17a5af8134fac35ba4b"
     }
   ],
   "nativeOfficeApplicationTested": false,
