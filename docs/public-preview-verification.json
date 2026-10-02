@@ -1,0 +1,38 @@
+{
+  "checkedAt": "2026-10-02T00:04:46.868Z",
+  "baseUrl": "https://fairtix-whu.vercel.app",
+  "checks": [
+    {
+      "path": "/api/state?proof=1",
+      "status": 200,
+      "ready": false,
+      "network": "devnet",
+      "noSimulatedTransactions": true,
+      "message": "Preview. The live demo is awaiting devnet deployment. Purchases are disabled."
+    },
+    {
+      "path": "/pitch.pdf",
+      "status": 200,
+      "contentType": "application/pdf",
+      "bytes": 397260,
+      "sha256": "ec77411adbba6094819e205f0d4510e2a0aa537b1425168a0957a623eca7c50c",
+      "matchesReviewedArtifact": true
+    },
+    {
+      "path": "/pitch.pptx",
+      "status": 200,
+      "contentType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "bytes": 109834,
+      "sha256": "b0aa77e015a7ecead095d5edf35821390a2a06273d6fb6530a4fee12c2df1a91",
+      "matchesReviewedArtifact": true
+    },
+    {
+      "path": "/demo.mp4",
+      "status": 200,
+      "contentType": "video/mp4",
+      "bytes": 631046,
+      "sha256": "e7712d1cd5ba52b6174cdbe8785601c8ab2b004222a5c1dcd9c7e4806a1563ca",
+      "matchesReviewedArtifact": true
+    }
+  ]
+}

@@ -11,3 +11,9 @@ Home, event, ticket management, organizer and creation views were checked at 390
 The 89-second walkthrough joins captured browser states with cuts. It is labeled as a local validator demo and is not a continuous screen recording. No transaction state, signature or result was simulated for the recording.
 
 Local validator history is ephemeral. The JSON verification report records a successful test run; old transaction receipts can be pruned. Public devnet receipts must be recorded again after deployment. Privy email sign-in has not been runtime-tested because an application ID has not been supplied.
+
+## Public preview
+
+The production build at https://fairtix-whu.vercel.app was verified on 2 October. Its state endpoint reports devnet with `ready: false`; it contains no ticket ownership, balance or transaction proofs. The example ticket is explicitly labeled as a preview. Purchase, resale-test and event-creation buttons are disabled. The organizer view does not display sales counters.
+
+The home page and materials page were checked at 390px, with no horizontal overflow. The deployed heading uses Archivo with width axis 90. The walkthrough loads with an 89-second duration and plays through the native video controls. The PDF, PowerPoint and MP4 downloads match the reviewed local artifacts byte for byte. Results are in `public-preview-verification.json`; final preview screenshots are in `docs/screenshots`.

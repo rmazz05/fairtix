@@ -6,6 +6,10 @@ tests
 scripts
 docs
 .git
+.next
+.next-dev
+node_modules
+*.tsbuildinfo
 .impeccable
 .presentation-build
 .demo-recording
