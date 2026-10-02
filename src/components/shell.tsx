@@ -191,7 +191,7 @@ export function Shell({ children }: { children: ReactNode }) {
                   className="text-button account-signout"
                   onClick={() => setAccount(false)}
                 >
-                  Follow the resale walkthrough
+                  Try the resale demo
                 </Link>
               )}
               <button

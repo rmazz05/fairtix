@@ -11,7 +11,7 @@ The demo shows a €60 listing rejected against a €27.50 cap, a rejected direc
 Limitations: test credits only, no entry/check-in, no mainnet. Cash side deals remain possible. The development upgrade authority is retained.
 
 Pitch deck: https://fairtix-whu.vercel.app/pitch.pdf
-Deck and walkthrough: https://fairtix-whu.vercel.app/project
+Project overview: https://fairtix-whu.vercel.app/project
 Public GitHub: https://github.com/rmazz05/fairtix
 Public devnet demo: https://fairtix-whu.vercel.app
 Both programs are deployed on Solana devnet. All 13 chain checks pass with public receipts. Email sign-in is configured and confirmed by the project owner.

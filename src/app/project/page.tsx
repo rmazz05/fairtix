@@ -13,21 +13,11 @@ export default function Page() {
         </p>
       </div>
       <section className="project-demo">
-        <h2>The devnet demo.</h2>
+        <h2>The interactive demo.</h2>
         <p>
-          This 89-second walkthrough shows actual transactions on Solana devnet
-          through a local browser interface. It joins captured browser states
-          with cuts. All amounts are test credits.
+          Use two demo accounts to buy a ticket, test the resale cap and
+          complete a resale. All amounts are test credits.
         </p>
-        <video
-          controls
-          playsInline
-          preload="metadata"
-          poster="/demo-poster.jpg"
-          aria-label="Fairtix devnet demo walkthrough, with captions"
-        >
-          <source src="/demo.mp4" type="video/mp4" />
-        </video>
         <p className="muted">
           An asking price of €60 fails against the €27.50 cap. A signed direct
           transfer fails. A €27.50 resale delivers the ticket and adds €1.37 to
@@ -36,9 +26,6 @@ export default function Page() {
         <Link href="/demo" className="button outline">
           Try the demo yourself →
         </Link>
-        <a href="/demo.mp4" className="text-button" download>
-          Download the walkthrough →
-        </a>
       </section>
       <section className="project-pitch">
         <h2>The pitch.</h2>

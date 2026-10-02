@@ -1142,13 +1142,6 @@ td a {
   margin-bottom: 20px;
   line-height: 1.6;
 }
-.project-demo video {
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 1px solid var(--ink);
-  margin: 28px 0;
-}
 .project-links {
   display: flex;
   align-items: center;

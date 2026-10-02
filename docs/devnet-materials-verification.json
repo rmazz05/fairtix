@@ -34,16 +34,6 @@
       "name": "pitch.pdf",
       "bytes": 183329,
       "sha256": "9f65ae2b4c31c08475d79aca783a22de935c0112359478f3ea29e977b086560a"
-    },
-    {
-      "name": "demo.mp4",
-      "bytes": 610399,
-      "sha256": "b234a7e05a687d2709ef0bc2596927e0bb7c8a80670f8d8ab1cbd73200d02709"
-    },
-    {
-      "name": "demo-poster.jpg",
-      "bytes": 57743,
-      "sha256": "08353ab78c88af7a945e5da2f00a274a8e37a8f2f84eec2768144731fd721f4a"
     }
   ],
   "repositoryAssets": [

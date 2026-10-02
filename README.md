@@ -4,7 +4,7 @@
 
 Fairtix lets a student club or small venue sell general-admission tickets, set the maximum resale price, and receive a royalty when a ticket changes hands. A buyer whose plans change can list their ticket within that cap or cancel an unsold listing.
 
-[Try the app](https://fairtix-whu.vercel.app) · [Try both sides of a resale](https://fairtix-whu.vercel.app/demo) · [Pitch deck](https://fairtix-whu.vercel.app/pitch.pdf) · [Video walkthrough](https://fairtix-whu.vercel.app/project)
+[Try the app](https://fairtix-whu.vercel.app) · [Try both sides of a resale](https://fairtix-whu.vercel.app/demo) · [Pitch deck](https://fairtix-whu.vercel.app/pitch.pdf)
 
 This is a working **Solana devnet prototype** built for the WHU challenge. All displayed euro amounts represent valueless test credits. There are no real payments or event admissions.
 
@@ -127,9 +127,9 @@ FAIRTIX_TEST_URL=https://fairtix-whu.vercel.app FAIRTIX_TEST_NETWORK=devnet npm 
 | `chain/programs/fairtix_hook/`   | Token-2022 transfer restriction                                            |
 | `scripts/`                       | Local setup, builds, seed and verification suites                          |
 | `docs/`                          | Setup instructions, verification records and editable pitch deck           |
-| `public/`                        | Final pitch PDF, captioned video and poster                                |
+| `public/`                        | Final pitch PDF and application assets                                     |
 
-Private keys, environment files, dependencies, validator ledgers and build output are excluded from Git. The PDF and walkthrough have one canonical copy under `public/`. The [editable deck](docs/Fairtix-pitch.pptx) stays in the repository and is excluded from the website deployment.
+Private keys, environment files, dependencies, validator ledgers and build output are excluded from Git. The PDF has one canonical copy under `public/`. The [editable deck](docs/Fairtix-pitch.pptx) stays in the repository and is excluded from the website deployment.
 
 ## Current limits
 

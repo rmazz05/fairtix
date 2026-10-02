@@ -12,7 +12,7 @@ After the reported RPC 429, server calls were serialized, retries added for HTTP
 
 The shared standard devnet RPC is retained for this submission at the project owner's request. It can still throttle under load. Event/listing reads are shared for up to two seconds within a server process; owner balances are fetched separately. Attempt-log reads use their own endpoint and a one-second cache. Confirmed transactions invalidate both caches in the process that confirms them. Errors are not cached.
 
-## Two-account walkthrough
+## Two-account resale flow
 
 The new `/demo` route was tested in a local browser interface connected to the actual public devnet deployment, with Privy configured. An anonymous visitor could select the seller account without an email wallet, buy the example ticket, attempt a €60 listing, attempt a signed direct transfer, list at €27.50, switch to the buyer account and purchase the seller's listing. The organizer royalty total rose from €1.37 to €2.74. The listing is labeled by its demo account so concurrent visitors' listings are distinguishable.
 
@@ -38,6 +38,6 @@ The final public guide was checked at 1280px and 390px, and the home page at 390
 
 ## Submission materials
 
-The final PDF, editable PowerPoint, MP4 and poster have a single canonical copy under `public/`. Their previously verified byte hashes are in [the material verification report](devnet-materials-verification.json).
+The final PDF has one canonical copy under `public/`. The editable PowerPoint lives in `docs/Fairtix-pitch.pptx`. Their verified byte hashes are in [the material verification report](devnet-materials-verification.json).
 
-The 89-second video shows a local browser interface connected to real devnet transactions, with cuts between captured states and captions. It is not a continuous recording. The eight-slide deck contains no invented organizer endorsement or pilot commitment. Native PowerPoint and Google Slides application behavior has not been tested. The PDF is public; the editable PowerPoint stays in the repository.
+The eight-slide deck contains no invented organizer endorsement or pilot commitment. Native PowerPoint and Google Slides application behavior has not been tested. The PDF is public; the editable PowerPoint stays in the repository.
