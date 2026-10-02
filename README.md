@@ -107,9 +107,9 @@ npm run test:chain     # Requires your funded, seeded deployment
 npm run test:http      # Requires the app running at localhost:3034
 ```
 
-The recorded [13 devnet chain checks](docs/chain-verification.json) cover bounded supply, primary settlement, immutable token ownership, over-cap and direct-transfer rejection, escrow, cancellation authorization, ticket recovery, insufficient-payment rollback and resale payout. [Local chain results](docs/local-chain-verification.json) are retained separately.
+The recorded [13 devnet chain checks](docs/chain-verification.json) cover bounded supply, primary settlement, immutable token ownership, over-cap and direct-transfer rejection, escrow, cancellation authorization, ticket recovery, insufficient-payment rollback and resale payout.
 
-The HTTP suite checks state, input and origin validation, sponsor signatures, unsigned relay rejection, metadata and the attempt-log endpoint. The RPC and resilience suites check HTTP/JSON-RPC throttling, serialized calls, coalesced reads, cache expiry/invalidation, failed-read recovery and errors that must not be mistaken for empty logs. The demo suite checks signed participants, separate listing and purchase, and recovery after a refresh or lost response without duplicate transactions. [Browser verification](docs/browser-verification.md) records actual app flows and responsive checks.
+The HTTP suite checks state, input and origin validation, sponsor signatures, unsigned relay rejection, metadata and the attempt-log endpoint. The RPC and resilience suites check HTTP/JSON-RPC throttling, serialized calls, coalesced reads, cache expiry/invalidation, failed-read recovery and errors that must not be mistaken for empty logs. The demo suite checks signed participants, separate listing and purchase, and recovery after a refresh or lost response without duplicate transactions. The public football demo's [transaction receipts](docs/demo-verification.json) record the rejected €60 listing, the €27.50 resale and the ticket and payment balance changes.
 
 To run HTTP checks against the public deployment:
 
@@ -138,6 +138,3 @@ FAIRTIX_TEST_URL=https://fairtix-whu.vercel.app FAIRTIX_TEST_NETWORK=devnet npm 
 - Program upgrade authority is retained for development. An upgrade could change the software; immutability is not claimed.
 - The prototype has not received an independent security audit. Sponsor and faucet throttling are best-effort within a server process.
 - Public reads are shared briefly within a server process: up to two seconds for event/listing data and one second for attempt logs. Confirmed transactions invalidate those local caches. Owner balances are read separately. The shared public RPC can still throttle; an account-scoped devnet endpoint is recommended for hosted use.
-- No organizer endorsement, paid customer, interview result or committed pilot is claimed. The first proposed pilot is a WHU student club.
-
-The [WHU challenge](https://superteam.fun/earn/listing/build-at-whu) requires a working Solana prototype, a pitch-deck link, a public repository and participant eligibility. The public app and submission materials are linked at the top of this README.
