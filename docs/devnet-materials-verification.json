@@ -1,6 +1,6 @@
 {
-  "verifiedAt": "2026-10-02T18:49:46.009Z",
-  "deployment": "https://fairtix-nmncp4ed7-ricky-projects.vercel.app",
+  "verifiedAt": "2026-10-02T18:58:45.414Z",
+  "deployment": "https://fairtix-cpycfrd9h-ricky-projects.vercel.app",
   "projectDescription": "devnet",
   "slides": 8,
   "pdfSelectableText": true,
@@ -43,5 +43,6 @@
       "sha256": "58f9808ccfececcd77617779fdc18f9827ea7c64814ff5a7f1b07932be4029b7"
     }
   ],
-  "nativeOfficeApplicationTested": false
+  "nativeOfficeApplicationTested": false,
+  "interactiveDemoAvailable": true
 }

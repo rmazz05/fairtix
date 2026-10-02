@@ -2,7 +2,7 @@
   "verifiedAt": "2026-10-02T17:44:54.872068+00:00",
   "codeCommit": "eac427db12e55c637874f9893ef768b037b7204d",
   "publicUrl": "https://fairtix-whu.vercel.app",
-  "deploymentUrl": "https://fairtix-6kmh1wn3i-ricky-projects.vercel.app",
+  "deploymentUrl": "https://fairtix-whu.vercel.app",
   "rpc": "standard Solana devnet, retained at project owner request",
   "checks": {
     "cleanInstall": true,
