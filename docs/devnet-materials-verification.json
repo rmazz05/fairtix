@@ -1,6 +1,6 @@
 {
-  "verifiedAt": "2026-10-02T19:09:50.843861Z",
-  "deployment": "https://fairtix-5gi3k5b3r-ricky-projects.vercel.app",
+  "verifiedAt": "2026-10-02T20:05:07.191062+00:00",
+  "deployment": "https://fairtix-b0xrf50mx-ricky-projects.vercel.app",
   "projectDescription": "devnet",
   "slides": 8,
   "pdfSelectableText": true,
@@ -10,19 +10,26 @@
   "linkedFinalizedReceipts": 3,
   "publicPages": [
     {
-      "path": "/project",
+      "path": "/",
       "status": 200,
-      "reviewerLinksAbsent": true
+      "repeatedNoticesAbsent": true
+    },
+    {
+      "path": "/demo",
+      "status": 200,
+      "repeatedNoticesAbsent": true,
+      "splitStylesPresent": true,
+      "accountControlsAbsent": true
     },
     {
       "path": "/about",
       "status": 200,
-      "reviewerLinksAbsent": true
+      "repeatedNoticesAbsent": true
     },
     {
-      "path": "/",
+      "path": "/project",
       "status": 200,
-      "reviewerLinksAbsent": true
+      "repeatedNoticesAbsent": true
     }
   ],
   "removedPowerPointRoute": {

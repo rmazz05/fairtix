@@ -1,36 +1,66 @@
 {
-  "verifiedAt": "2026-10-02T17:44:54.872068+00:00",
-  "codeCommit": "eac427db12e55c637874f9893ef768b037b7204d",
+  "verifiedAt": "2026-10-02T20:05:07.191062+00:00",
+  "codeCommit": "68bd0e63642ab061bdc3c9bbf4e14e7f93368cbc",
   "publicUrl": "https://fairtix-whu.vercel.app",
-  "deploymentUrl": "https://fairtix-whu.vercel.app",
+  "deploymentUrl": "https://fairtix-b0xrf50mx-ricky-projects.vercel.app",
   "rpc": "standard Solana devnet, retained at project owner request",
   "checks": {
-    "cleanInstall": true,
-    "interfacePreviewWithoutCredentials": true,
     "typescript": true,
     "productionBuild": true,
-    "freshLocalProgramBuildAndDeployment": true,
-    "freshLocalChain": 13,
     "publicHttp": 9,
     "rpcAndResilience": 10,
-    "readmeLocalLinks": "valid",
-    "trackedCredentialPatternScan": "no matches",
-    "privateEnvOrKeyPathsInGitHistory": "none"
+    "demoRecovery": "passed",
+    "publicSplitResale": "four finalized receipts; ownership and payment deltas checked",
+    "publicStyles": "split and centered hero styles verified",
+    "readmeLocalLinks": "valid"
   },
   "browser": {
-    "twoAccountDevnetResale": "passed through local interface, public chain",
-    "publicBuyerSelectionWithoutEmail": "passed",
-    "guideDesktop": {
+    "publicSplitResale": "passed",
+    "reloadAfterResale": "completed progress restored",
+    "demoDesktop": {
       "viewportWidth": 1280,
-      "documentWidth": 1280
+      "documentWidth": 1280,
+      "columns": 2
     },
-    "guideMobile": {
+    "demoMobile": {
       "viewportWidth": 390,
-      "documentWidth": 390
+      "documentWidth": 390,
+      "columns": 1
+    },
+    "homeDesktop": {
+      "viewportWidth": 1280,
+      "documentWidth": 1280,
+      "heroTickets": 0
     },
     "homeMobile": {
       "viewportWidth": 390,
-      "documentWidth": 390
+      "documentWidth": 390,
+      "heroTickets": 0
+    }
+  },
+  "screenshots": [
+    "docs/screenshots/public-home-desktop.jpg",
+    "docs/screenshots/public-devnet-home-mobile.jpg",
+    "docs/screenshots/public-demo-desktop.jpg",
+    "docs/screenshots/public-demo-mobile.jpg",
+    "docs/screenshots/public-demo-completed.jpg",
+    "docs/screenshots/public-project.jpg"
+  ],
+  "previousSetupVerification": {
+    "verifiedAt": "2026-10-02T17:44:54.872068+00:00",
+    "codeCommit": "eac427db12e55c637874f9893ef768b037b7204d",
+    "checks": {
+      "cleanInstall": true,
+      "interfacePreviewWithoutCredentials": true,
+      "typescript": true,
+      "productionBuild": true,
+      "freshLocalProgramBuildAndDeployment": true,
+      "freshLocalChain": 13,
+      "publicHttp": 9,
+      "rpcAndResilience": 10,
+      "readmeLocalLinks": "valid",
+      "trackedCredentialPatternScan": "no matches",
+      "privateEnvOrKeyPathsInGitHistory": "none"
     }
   },
   "limitations": [

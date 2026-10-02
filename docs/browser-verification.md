@@ -12,19 +12,15 @@ After the reported RPC 429, server calls were serialized, retries added for HTTP
 
 The shared standard devnet RPC is retained for this submission at the project owner's request. It can still throttle under load. Event/listing reads are shared for up to two seconds within a server process; owner balances are fetched separately. Attempt-log reads use their own endpoint and a one-second cache. Confirmed transactions invalidate both caches in the process that confirms them. Errors are not cached.
 
-## Two-account resale flow
+## Seller and buyer demo
 
-The new `/demo` route was tested in a local browser interface connected to the actual public devnet deployment, with Privy configured. An anonymous visitor could select the seller account without an email wallet, buy the example ticket, attempt a €60 listing, attempt a signed direct transfer, list at €27.50, switch to the buyer account and purchase the seller's listing. The organizer royalty total rose from €1.37 to €2.74. The listing is labeled by its demo account so concurrent visitors' listings are distinguishable.
+The `/demo` route shows the seller and buyer on one screen. No email, wallet extension, account picker or navigation between ticket pages is needed. Listing and purchasing remain separate actions.
 
-Verified transaction receipts:
+An anonymous browser connected to public devnet completed a rejected €60 listing, a signed direct-transfer rejection, a €27.50 listing and a buyer purchase. Reloading after listing preserved the exact listing and price. All five receipts finalized. The resale moved one ticket to the buyer and settled €25.58 to the seller, €1.37 to the organizer and €0.55 to Fairtix in one transaction. The [split demo report](split-demo-verification.json) contains transaction signatures and independently checked token-balance changes. The price rejection, permitted listing and buyer purchase were then repeated on the live site. All four public receipts finalized, with the same ownership change and payment split. Reloading the completed public demo restored its results.
 
-- Primary purchase: `4v545adzDvPnkLxVs9eBe1fT6BLSJ5brwMPp9pFWn2gS4TusEB7EgWAefgp922d8DP3zBM4DEkjxQXYFAT9sFrpj`.
-- Rejected €60 listing: `2iXm5UigJ2JhgtFj8yDqRdpwgQGuDVEGxVgZW52y2Hds9vF3jhjQh3C5neMySk6dX7r9odjrbaGSTC66Qypxpcwu`.
-- Rejected direct transfer: `33GCbYNPFE7EBGggbLqErzKvDja1mKzhwW3H9E3dP9PbQdiUucWDdHvkiNRHNyFmbzFKSinaWBWZa6onXeVMBQUU`.
-- Permitted listing: `4sYMNAaaWkyLp7Bp4Z3gwoNdzacLXZduQFZczNCJAheekP9Sth4VqwXCsY4HE6CmnGwpbbFWkVfjgYDyRBEQ6g8X`.
-- Completed resale: `3FYCU8uRkaFYN1YuDtE8dA1QbjDjoguZj67NMZHvXiAzG9riQh86aZpVQMPcUwV8pRgHpceuN2WuKJfaLgSVEzQb`.
+The demo regression suite checks signatures from both browser-owned participants, price preservation and recovery after lost primary, listing and resale responses. Retrying replays the same signed transaction instead of making a duplicate purchase. Unexpected rejection codes are not presented as successful cap enforcement. Storage failure stops setup before any network action.
 
-The attempt log showed both new rejected transactions with Explorer links. Its response handling distinguishes a failed HTTP request from an actual empty log, retains previously loaded proofs on failure, and provides a retry action. The regression suite covers HTTP 503 and non-JSON responses explicitly.
+The attempt-log response handling distinguishes a failed HTTP request from an actual empty log, retains previously loaded proofs on failure, and provides a retry action. The resilience suite covers HTTP 503 and non-JSON responses explicitly.
 
 ## Clean checkout
 
@@ -34,7 +30,7 @@ The full local procedure was then executed with newly generated keys, Agave 4.3.
 
 An intermittent consumed-response error found during the clean run was corrected by draining each upstream RPC response once and returning a fresh response body to the Solana client.
 
-The final public guide was checked at 1280px and 390px, and the home page at 390px. In each case document width matched viewport width. Public buyer selection without email worked. Final captures and the check summary are in `docs/screenshots` and [submission verification](submission-verification.json).
+The current interface checks and public captures are recorded in [submission verification](submission-verification.json) and `docs/screenshots`. The centered home hero and demo were checked at 1280 × 800 and 390 × 844. Document width matched viewport width. The hero contains no ticket; the demo uses two columns on desktop and stacks seller above buyer on mobile. The obsolete account-selection guide and its captures have been removed. The clean-checkout and full chain procedures above were completed before the split-screen UI revision; they are retained as setup and program verification, rather than described as a new clean-install run.
 
 ## Submission materials
 
