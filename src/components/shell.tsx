@@ -57,45 +57,49 @@ export function Shell({ children }: { children: ReactNode }) {
         <Link className="wordmark" href="/" aria-label="Fairtix home">
           fairtix<span>.</span>
         </Link>
-        <nav aria-label="Main navigation">
-          <Link
-            aria-current={pathname === "/" ? "page" : undefined}
-            href="/#events"
+        {pathname !== "/demo" && (
+          <nav aria-label="Main navigation">
+            <Link
+              aria-current={pathname === "/" ? "page" : undefined}
+              href="/#events"
+            >
+              Events
+            </Link>
+            <Link
+              aria-current={pathname === "/tickets" ? "page" : undefined}
+              href="/tickets"
+            >
+              My tickets
+            </Link>
+            <Link
+              aria-current={pathname === "/organizer" ? "page" : undefined}
+              href="/organizer"
+            >
+              For organizers
+            </Link>
+          </nav>
+        )}
+        {pathname !== "/demo" && (
+          <button
+            className="account-button"
+            onClick={() =>
+              session.address
+                ? setAccount(true)
+                : session.emailEnabled
+                  ? session.login()
+                  : setAccount(true)
+            }
           >
-            Events
-          </Link>
-          <Link
-            aria-current={pathname === "/tickets" ? "page" : undefined}
-            href="/tickets"
-          >
-            My tickets
-          </Link>
-          <Link
-            aria-current={pathname === "/organizer" ? "page" : undefined}
-            href="/organizer"
-          >
-            For organizers
-          </Link>
-        </nav>
-        <button
-          className="account-button"
-          onClick={() =>
-            session.address
-              ? setAccount(true)
+            {session.address
+              ? session.mode === "demo"
+                ? session.label
+                : "Your account"
               : session.emailEnabled
-                ? session.login()
-                : setAccount(true)
-          }
-        >
-          {session.address
-            ? session.mode === "demo"
-              ? session.label
-              : "Your account"
-            : session.emailEnabled
-              ? "Sign in"
-              : "Try demo"}
-          <ArrowRight size={16} />
-        </button>
+                ? "Sign in"
+                : "Try demo"}
+            <ArrowRight size={16} />
+          </button>
+        )}
       </header>
       <main id="main">
         {!app.snapshot.ready && (
