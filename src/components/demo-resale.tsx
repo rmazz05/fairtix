@@ -79,13 +79,14 @@ export function DemoResale() {
       setProgress(next);
       if (next.listing && !next.sale) {
         setActiveSide("buyer");
-        buyerPanel.current?.scrollIntoView({
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
-            .matches
-            ? "instant"
-            : "smooth",
-          block: "nearest",
-        });
+        if (window.matchMedia("(max-width: 760px)").matches)
+          buyerPanel.current?.scrollIntoView({
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+              .matches
+              ? "instant"
+              : "smooth",
+            block: "nearest",
+          });
       }
     } catch (caught) {
       setError(
