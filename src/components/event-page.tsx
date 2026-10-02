@@ -122,7 +122,13 @@ export function EventPage({ address }: { address: string }) {
                     <span className="muted">
                       {l.seller === session.address
                         ? "Your listing"
-                        : "From another fan"}
+                        : session.mode === "demo" &&
+                            l.seller === session.demoAddresses[1]
+                          ? "From demo account 1"
+                          : session.mode === "demo" &&
+                              l.seller === session.demoAddresses[2]
+                            ? "From demo account 2"
+                            : "From another fan"}
                     </span>
                   </div>
                   <strong className="mono">{euros(l.price)}</strong>

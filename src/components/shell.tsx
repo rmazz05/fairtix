@@ -130,6 +130,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </Link>
         <p>Tickets for the people going.</p>
         <div>
+          <Link href="/demo">Try the demo</Link>
           <Link href="/about">The demo & its limits</Link>
           <Link href="/project">WHU project</Link>
           <a
@@ -180,15 +181,26 @@ export function Shell({ children }: { children: ReactNode }) {
                     className="text-button account-signout"
                     disabled={!!app.busy}
                     onClick={() => {
-                      void session.switchDemo();
-                      setAccount(false);
+                      void session
+                        .switchDemo()
+                        .then(() => setAccount(false))
+                        .catch((e) => app.setMessage(e.message));
                     }}
                   >
                     Switch to demo account{" "}
-                    {session.label.endsWith("1") ? "2" : "1"}
+                    {session.demoAccount === 1 ? "2" : "1"}
                   </button>
                 )}
               </>
+              {session.mode === "demo" && (
+                <Link
+                  href="/demo"
+                  className="text-button account-signout"
+                  onClick={() => setAccount(false)}
+                >
+                  Follow the resale walkthrough
+                </Link>
+              )}
               <button
                 className="text-button account-signout"
                 disabled={!!app.busy}

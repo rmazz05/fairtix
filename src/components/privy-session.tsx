@@ -52,15 +52,24 @@ function Bridge({ children }: { children: ReactNode }) {
         emailEnabled: true,
         ready:
           privy.ready &&
-          walletsReady &&
           demo.ready &&
-          (!privy.authenticated || !!wallet),
+          (!privy.authenticated || (walletsReady && !!wallet)),
         address: privy.authenticated ? wallet?.address || null : demo.address,
         label: privy.authenticated
           ? privy.user?.email?.address || "Your account"
           : demo.label,
         mode: privy.authenticated ? "email" : "demo",
         login: privy.login,
+        selectDemo: async (account) => {
+          if (privy.authenticated)
+            throw new Error("Sign out before switching to a demo account.");
+          return demo.selectDemo(account);
+        },
+        switchDemo: async () => {
+          if (privy.authenticated)
+            throw new Error("Sign out before switching to a demo account.");
+          return demo.switchDemo();
+        },
         startDemo: async () => {
           if (!privy.authenticated) return demo.startDemo();
           if (!wallet)

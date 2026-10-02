@@ -1155,6 +1155,42 @@ td a {
   flex-wrap: wrap;
   gap: 24px;
 }
+.demo-guide {
+  max-width: 880px;
+}
+.demo-accounts {
+  border-block: 1px solid var(--rule);
+  padding-block: 32px;
+}
+.demo-accounts h2,
+.demo-steps h2 {
+  font-size: 24px;
+}
+.demo-accounts p,
+.demo-steps p {
+  max-width: 65ch;
+}
+.demo-account-actions,
+.demo-step-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.demo-account-status {
+  margin-bottom: 0;
+  color: var(--muted);
+}
+.demo-steps {
+  padding-left: 24px;
+  margin-block: 40px;
+}
+.demo-steps > li {
+  padding-left: 8px;
+  margin-bottom: 40px;
+}
+.demo-steps > li::marker {
+  font-family: var(--font-mono), monospace;
+}
 .program-details p {
   margin: 0 0 8px;
 }

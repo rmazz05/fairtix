@@ -40,6 +40,7 @@ import type {
   Proof,
 } from "./types";
 import exampleTicket from "./example-event.json";
+import { createReadCache } from "./read-cache";
 
 let cachedRpc: { url: string; value: Connection } | undefined;
 let rpcQueue: Promise<void> = Promise.resolve();
@@ -58,18 +59,22 @@ export function connection() {
             ...options,
             signal: AbortSignal.timeout(8_000),
           });
-          // Consume the body before starting another request, so the HTTP
-          // connection can be reused. Some RPCs return JSON error 429 with HTTP 200.
-          const body = await response.clone().text();
+          // Drain the response exactly once before reusing the connection.
+          // Return a fresh body to web3.js, unaffected by a late fetch abort.
+          // Some RPCs return JSON error 429 with HTTP 200.
+          const body = await response.text();
           let limited = response.status === 429;
           try {
             limited ||= JSON.parse(body)?.error?.code === 429;
           } catch {}
           if (!limited || attempt === 3) {
             await pause(200);
-            return response;
+            return new Response(body, {
+              status: response.status,
+              statusText: response.statusText,
+              headers: { "Content-Type": "application/json" },
+            });
           }
-          await response.body?.cancel();
           await pause(750 * (attempt + 1));
         }
       });
@@ -101,6 +106,8 @@ export const network = (): "localnet" | "devnet" =>
     : "devnet";
 let guardPromise: Promise<void> | undefined;
 export async function guard() {
+  if (process.env.FAIRTIX_UI_ONLY === "1" && !process.env.VERCEL)
+    throw new Error("Interface preview. Chain actions are disabled.");
   guardPromise ??= (async () => {
     const url = new URL(
       process.env.SOLANA_RPC_URL || "https://api.devnet.solana.com",
@@ -223,12 +230,12 @@ export async function balance(mint: PublicKey, owner: PublicKey) {
   }
 }
 
-export async function getSnapshot(
-  owner?: string,
-  withProof = false,
-): Promise<Snapshot> {
+async function readLedger(): Promise<{
+  snapshot: Snapshot;
+  currency: string | null;
+}> {
   const base: Snapshot = {
-    owner: owner || null,
+    owner: null,
     ready: false,
     network: network(),
     events: [],
@@ -243,6 +250,17 @@ export async function getSnapshot(
     base.events = [exampleTicket];
     base.demoEvent = exampleTicket.address;
   }
+  if (process.env.FAIRTIX_UI_ONLY === "1" && !process.env.VERCEL)
+    return {
+      currency: null,
+      snapshot: {
+        ...base,
+        events: [exampleTicket],
+        demoEvent: exampleTicket.address,
+        message:
+          "Interface preview. No ledger is connected; purchases and transfers are disabled.",
+      },
+    };
   try {
     await guard();
   } catch {
@@ -256,9 +274,12 @@ export async function getSnapshot(
     !deployment[2]?.owner.equals(MARKET)
   )
     return {
-      ...base,
-      message:
-        "Preview. The live demo is awaiting devnet deployment. Purchases are disabled.",
+      currency: null,
+      snapshot: {
+        ...base,
+        message:
+          "Preview. The live demo is awaiting devnet deployment. Purchases are disabled.",
+      },
     };
   const program = serverProgram();
   const currency = program.coder.accounts.decode(
@@ -301,6 +322,35 @@ export async function getSnapshot(
       ) as ListingAccount,
     ),
   );
+  return {
+    snapshot: { ...base, ready: true },
+    currency: currency.currencyMint.toBase58(),
+  };
+}
+const ledgerReads = createReadCache(readLedger, 2_000);
+const proofReads = createReadCache(async () => {
+  await guard();
+  const event = process.env.FAIRTIX_DEMO_EVENT;
+  return event ? recentProofs(new PublicKey(event)) : [];
+}, 1_000);
+
+export async function getProofs() {
+  return proofReads.read();
+}
+
+export async function getSnapshot(
+  owner?: string,
+  withProof = false,
+): Promise<Snapshot> {
+  const ledger = await ledgerReads.read();
+  const base: Snapshot = {
+    ...ledger.snapshot,
+    owner: owner || null,
+    tickets: {},
+    proofs: [],
+  };
+  if (!base.ready) return base;
+  const rpc = connection();
   if (owner) {
     const key = new PublicKey(owner);
     const tokenAccounts = await rpc.getTokenAccountsByOwner(key, {
@@ -311,15 +361,14 @@ export async function getSnapshot(
         account.account.data.subarray(0, 32),
       ).toBase58();
       const amount = Number(account.account.data.readBigUInt64LE(64));
-      if (mint === currency.currencyMint.toBase58()) base.balance += amount;
+      if (mint === ledger.currency) base.balance += amount;
       const event = base.events.find((e) => e.mint === mint);
       if (event && amount > 0)
         base.tickets[event.address] =
           (base.tickets[event.address] || 0) + amount;
     }
   }
-  if (withProof && base.demoEvent)
-    base.proofs = await recentProofs(new PublicKey(base.demoEvent));
+  if (withProof && base.demoEvent) base.proofs = await getProofs();
   return { ...base, ready: true };
 }
 async function recentProofs(event: PublicKey): Promise<Proof[]> {
@@ -512,8 +561,11 @@ async function confirmOverHttp(signature: string, blockhash: string) {
       status &&
       (status.confirmationStatus === "confirmed" ||
         status.confirmationStatus === "finalized")
-    )
+    ) {
+      ledgerReads.invalidate();
+      proofReads.invalidate();
       return status;
+    }
     if (attempt % 4 === 3 && !(await rpc.isBlockhashValid(blockhash)).value)
       throw new Error("The transaction expired. Refresh and try again.");
     await pause(750);

@@ -75,6 +75,9 @@ export function Home() {
           <Link href="/create" className="button signal">
             Create an event <ArrowRight size={18} />
           </Link>
+          <Link href="/demo" className="hero-secondary text-button">
+            Try the full demo, no email needed <ArrowRight size={17} />
+          </Link>
           <button
             className="hero-secondary text-button"
             onClick={() => {

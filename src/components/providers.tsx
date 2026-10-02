@@ -11,6 +11,7 @@ import {
 } from "react";
 import { DemoSession, useSession } from "./session";
 import type { Snapshot, ActionInput, Prepared, Receipt } from "@/lib/types";
+import { readResponse } from "@/lib/client-http";
 const PrivySession = dynamic(() => import("./privy-session"));
 type AppState = {
   snapshot: Snapshot;
@@ -33,12 +34,7 @@ export async function post<T>(path: string, body: unknown): Promise<T> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  const result = await response.json();
-  if (!response.ok)
-    throw new Error(
-      result.error || "The ticket request was rejected. Try again.",
-    );
-  return result as T;
+  return readResponse<T>(response);
 }
 export function Providers({
   initial,

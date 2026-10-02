@@ -33,6 +33,9 @@ export default function Page() {
           transfer fails. A €27.50 resale delivers the ticket and adds €1.37 to
           the organizer’s royalty balance.
         </p>
+        <Link href="/demo" className="button outline">
+          Try the demo yourself →
+        </Link>
         <a href="/demo.mp4" className="text-button" download>
           Download the walkthrough →
         </a>

@@ -16,10 +16,13 @@ export type Session = {
   mode: "demo" | "email";
   ready: boolean;
   emailEnabled: boolean;
+  demoAccount: 1 | 2;
+  demoAddresses: Partial<Record<1 | 2, string>>;
   login: () => void;
   logout: () => void;
   startDemo: () => Promise<string>;
   switchDemo: () => Promise<string>;
+  selectDemo: (account: 1 | 2) => Promise<string>;
   sign: (wire: Uint8Array) => Promise<Uint8Array>;
 };
 export const SessionContext = createContext<Session | null>(null);
@@ -86,17 +89,24 @@ export function DemoSession({ children }: { children: ReactNode }) {
     setAddress(value);
     return value;
   }, [persist]);
-  const switchDemo = useCallback(async () => {
-    if (key.current) accounts.current[current.current] = key.current;
-    current.current = current.current === 1 ? 2 : 1;
-    accounts.current[current.current] ??= Keypair.generate();
-    key.current = accounts.current[current.current]!;
-    persist();
-    const value = key.current.publicKey.toBase58();
-    setAddress(value);
-    setAccount(current.current);
-    return value;
-  }, [persist]);
+  const selectDemo = useCallback(
+    async (selected: 1 | 2) => {
+      if (key.current) accounts.current[current.current] = key.current;
+      current.current = selected;
+      accounts.current[current.current] ??= Keypair.generate();
+      key.current = accounts.current[current.current]!;
+      persist();
+      const value = key.current.publicKey.toBase58();
+      setAddress(value);
+      setAccount(current.current);
+      return value;
+    },
+    [persist],
+  );
+  const switchDemo = useCallback(
+    () => selectDemo(current.current === 1 ? 2 : 1),
+    [selectDemo],
+  );
   const sign = useCallback(async (wire: Uint8Array) => {
     if (!key.current)
       throw new Error("Start a demo account before buying a ticket.");
@@ -112,6 +122,13 @@ export function DemoSession({ children }: { children: ReactNode }) {
         mode: "demo",
         ready,
         emailEnabled: false,
+        demoAccount: account,
+        demoAddresses: Object.fromEntries(
+          Object.entries(accounts.current).map(([id, value]) => [
+            id,
+            value.publicKey.toBase58(),
+          ]),
+        ),
         login: () => {
           void startDemo();
         },
@@ -126,6 +143,7 @@ export function DemoSession({ children }: { children: ReactNode }) {
         },
         startDemo,
         switchDemo,
+        selectDemo,
         sign,
       }}
     >

@@ -1,37 +1,41 @@
-# Browser verification
+# Browser and setup verification
 
-## Initial local-validator run
+Verified on 2 October 2026. Chain outcomes below come from actual transactions, not simulated UI state.
 
-Verified on 2 October 2026 using the local validator and actual browser controls.
+## Public deployment
 
-The home-page €60 attempt failed against the €27.50 cap. The seller retained the ticket. A signed direct transfer failed in the transfer hook. A listing at €27.50 succeeded, and a second demo account bought it. Checkout displayed the €27.50 paid, the buyer held the ticket, and the organizer received another €1.37. The organizer’s total increased from €2.74 to €4.11 on the final recorded resale.
+Both programs are deployed on Solana devnet. Their deployed bytes match the binaries used by the recorded [13-check chain suite](chain-verification.json); addresses and binary hashes are in [the deployment report](devnet-deployment.json).
 
-An organizer created an €18 event with 80 tickets and a 20% resale cap. The resulting event page displayed €21.60 as its maximum resale price. Cancellation and unauthorized cancellation are covered by the chain suite.
+The project owner confirmed email login and a transaction signed with the embedded wallet. The rejected transaction was independently visible in the attempt log.
 
-Home, event, ticket management, organizer and creation views were checked at 390px. Home and creation were also checked at 320px. Document width matched viewport width. The resale dialog is centered and scrolls on small screens. Screenshots are in `docs/screenshots`.
+After the reported RPC 429, server calls were serialized, retries added for HTTP and JSON-RPC throttling, and confirmation moved to HTTP polling. Public purchases, rejected listings, signed direct-transfer attempts, permitted listings and cancellation were retested. Receipts are in [the public HTTP/browser report](devnet-http-verification.json).
 
-The 89-second walkthrough joins captured browser states with cuts. It is labeled as a local validator demo and is not a continuous screen recording. No transaction state, signature or result was simulated for the recording.
+The shared standard devnet RPC is retained for this submission at the project owner's request. It can still throttle under load. Event/listing reads are shared for up to two seconds within a server process; owner balances are fetched separately. Attempt-log reads use their own endpoint and a one-second cache. Confirmed transactions invalidate both caches in the process that confirms them. Errors are not cached.
 
-Local validator history is ephemeral. The JSON verification report records a successful test run; old transaction receipts can be pruned. These historical receipts are separate from the subsequent devnet verification.
+## Two-account walkthrough
 
-## Initial public preview
+The new `/demo` route was tested in a local browser interface connected to the actual public devnet deployment, with Privy configured. An anonymous visitor could select the seller account without an email wallet, buy the example ticket, attempt a €60 listing, attempt a signed direct transfer, list at €27.50, switch to the buyer account and purchase the seller's listing. The organizer royalty total rose from €1.37 to €2.74. The listing is labeled by its demo account so concurrent visitors' listings are distinguishable.
 
-The production build at https://fairtix-whu.vercel.app was verified on 2 October. Its state endpoint reports devnet with `ready: false`; it contains no ticket ownership, balance or transaction proofs. The example ticket is explicitly labeled as a preview. Purchase, resale-test and event-creation buttons are disabled. The organizer view does not display sales counters.
+Verified transaction receipts:
 
-The home page and materials page were checked at 390px, with no horizontal overflow. The deployed heading uses Archivo with width axis 90. The walkthrough loads with an 89-second duration and plays through the native video controls. The PDF, PowerPoint and MP4 downloads match the reviewed local artifacts byte for byte. Results are in `public-preview-verification.json`; final preview screenshots are in `docs/screenshots`.
+- Primary purchase: `4v545adzDvPnkLxVs9eBe1fT6BLSJ5brwMPp9pFWn2gS4TusEB7EgWAefgp922d8DP3zBM4DEkjxQXYFAT9sFrpj`.
+- Rejected €60 listing: `2iXm5UigJ2JhgtFj8yDqRdpwgQGuDVEGxVgZW52y2Hds9vF3jhjQh3C5neMySk6dX7r9odjrbaGSTC66Qypxpcwu`.
+- Rejected direct transfer: `33GCbYNPFE7EBGggbLqErzKvDja1mKzhwW3H9E3dP9PbQdiUucWDdHvkiNRHNyFmbzFKSinaWBWZa6onXeVMBQUU`.
+- Permitted listing: `4sYMNAaaWkyLp7Bp4Z3gwoNdzacLXZduQFZczNCJAheekP9Sth4VqwXCsY4HE6CmnGwpbbFWkVfjgYDyRBEQ6g8X`.
+- Completed resale: `3FYCU8uRkaFYN1YuDtE8dA1QbjDjoguZj67NMZHvXiAzG9riQh86aZpVQMPcUwV8pRgHpceuN2WuKJfaLgSVEzQb`.
 
-## Public devnet deployment
+The attempt log showed both new rejected transactions with Explorer links. Its response handling distinguishes a failed HTTP request from an actual empty log, retains previously loaded proofs on failure, and provides a retry action. The regression suite covers HTTP 503 and non-JSON responses explicitly.
 
-Both programs were deployed on 2 October 2026. The deployed bytes match the tested binaries. The complete 13-check chain suite passed on devnet, including over-cap rejection, direct-transfer rejection, immutable token-account ownership, escrow cancellation, rollback on underfunded payment and atomic payout. Eight HTTP checks passed against a local interface connected to devnet. A separate read-only network check confirmed that the sponsor rejects the mainnet genesis hash.
+## Clean checkout
 
-The Privy email modal was verified on the public app. The project owner subsequently confirmed successful email sign-in. The project owner also confirmed that the signed-in account completed the €60 attempt and displayed Over the cap; its rejected receipt was independently visible in the organizer log.
+A separate directory contained only repository files and a fresh `npm ci` install. The README's default interface-preview configuration served an explicitly disabled example with `ready: false`, no ownership and no connected ledger. TypeScript, the ten RPC/resilience checks and the production build passed.
 
-The devnet walkthrough uses the local browser interface connected to the actual public deployment. It shows a refused €60 listing, a refused signed direct transfer, a listing at €27.50, a purchase by another account, and €1.37 in organizer royalties. Public Explorer receipts are linked from each result. The recording uses cuts between captured states and contains no simulated transactions.
+The full local procedure was then executed with newly generated keys, Agave 4.3.0 and Anchor CLI 0.32.1. Both programs compiled, deployed to a fresh validator and seeded successfully. All 13 chain checks and all nine HTTP checks passed. These local program addresses are separate from the public deployment's addresses.
 
-After a public RPC 429 report, server transaction confirmation was switched from WebSocket subscriptions to HTTP status polling. RPC calls share a serialized queue, with bounded retries for both HTTP 429 and JSON-RPC error 429. Each snapshot now reads the marketplace accounts once and derives the credit balance from the same token-account query used for tickets. A ready anonymous snapshot supplied by the server is reused on hydration. Three regression checks cover both 429 response formats, request serialization and the plain retry message.
+An intermittent consumed-response error found during the clean run was corrected by draining each upstream RPC response once and returning a fresh response body to the Solana client.
 
-The repaired public deployment was retested with a fresh anonymous account. Funding, primary purchase, a rejected €60 listing, direct-transfer recipient setup and rejected transfer all completed without a 429 error. A legal €27.50 listing appeared in escrow on My tickets. Public receipts are in `devnet-http-verification.json`. The public RPC remains a shared test service; a dedicated devnet endpoint would be appropriate before a busy public demo.
+## Submission materials
 
-Cancellation on the repaired public deployment also completed successfully, returned the ticket to the owner, and removed the listing. The seven-slide deck and 89-second video were updated with devnet evidence and the confirmed email-wallet status.
+The final PDF, editable PowerPoint, MP4 and poster have a single canonical copy under `public/`. Their previously verified byte hashes are in [the material verification report](devnet-materials-verification.json).
 
-The final devnet home and materials page were checked at a 390px viewport, with matching document width and no horizontal overflow. The video metadata reports 89 seconds. Final mobile captures are in `docs/screenshots/public-devnet-home-mobile.jpg` and `public-devnet-project-mobile.jpg`.
+The 89-second video shows a local browser interface connected to real devnet transactions, with cuts between captured states and captions. It is not a continuous recording. The seven-slide deck contains no invented organizer endorsement or pilot commitment. Native PowerPoint and Google Slides application behavior has not been tested.

@@ -1,0 +1,58 @@
+{
+  "network": "localnet",
+  "verifiedAt": "2026-10-02T17:24:22.301Z",
+  "event": "HF6tE85MKFcVZ59Kr2ue9fRenDLuVc7gfDg2uTbGxiNW",
+  "results": [
+    {
+      "check": "event mint uses the transfer hook; unsold tickets are not minted",
+      "signature": "2T7G5bmPRhhkUdzN3uL3JZ7dZ86E7xSedyPVpSaXzr7xbT9z3RMVS8DdSuV9mFfUYCQwAXbhoTbVos8rQFDqyBQg"
+    },
+    {
+      "check": "primary purchase atomically delivers one ticket and pays 97% to the organizer",
+      "signature": "37PBRwaCf4xD26TaGYNijpiFPPz6VS7QM6TBi3Xqtyej6dgw2vH7MqiHxnFJvuTKmcXKQDeZp4vQuBGnazGxEjxR"
+    },
+    {
+      "check": "ticket account ownership is immutable"
+    },
+    {
+      "check": "changing the account owner cannot bypass the hook",
+      "signature": "buAUkWPkWp9e75sTNt4ngMqSvShGiMyPNVtkE1hLt4crDqYGqTxtkLMhL1tvmyztMrjvDSXTC4zH1n6Q3ZFobn5"
+    },
+    {
+      "check": "\u20ac60 listing rejected against \u20ac27.50 cap; ticket stays with seller",
+      "signature": "2VouEGCwjKumAt8r9HMQbFPWM6t6aop4BfqfiYK6276kjcvBMAxwUgPabH1h7LcWA5gscc3Uknxsq3XBkNJQdCqs"
+    },
+    {
+      "check": "direct wallet-to-wallet transfer rejected by the Token-2022 hook",
+      "signature": "23DEzokJqFVKbDawHzVCKQ7CMENJkdAFKQEz7fskjfYccXNfvSFZ5qcSHuEwA8CCm5LtSvvQKoZcSz1MQYURWGkD"
+    },
+    {
+      "check": "legal listing holds exactly one ticket in escrow",
+      "signature": "2LfC3T8qJALTavnW22KJgy9WDkmNGkRhWNSRarkngsTkfE5DPMk6jHs9PuuK4ehwrFQjF3aY6Mf2AGkPvYAee1qj"
+    },
+    {
+      "check": "another account cannot cancel the seller's listing",
+      "signature": "6DTb6psgcoD9JSXA5hGn9EeBe27mJmHDVX3xZNcuH7YupHuA6dkCb36QbdnwghBkYVQWnZDLx9x6F7WwjPtBFqn"
+    },
+    {
+      "check": "seller can cancel and recover their ticket; escrow and listing close",
+      "signature": "ftrv8ZgJCaYBNyADQQhZqAiCTmpRfg9eCYu78Bnqq1UnVghun2fDTdCVZnSdZeB5rxNXYCDvgdVLs9BgWTPfuBh"
+    },
+    {
+      "check": "an underfunded resale rolls back the first payment and leaves the ticket in escrow",
+      "signature": "2o3ApeNizLJq4csgt4YZuLfisyt5dX1xZ5z5vF27DZGxtsHpNQHgvFJY2NjmXBMKm248mSA9BWsKqEVES89KvHr2"
+    },
+    {
+      "check": "\u20ac25.75 resale pays \u20ac23.96 seller, \u20ac1.28 royalty, \u20ac0.51 platform atomically",
+      "signature": "jZvMGLGXHwBGpccGDdWtBbLTkEfBtgeUq4rmEZw5fshrjyUtmteqYV9dwHU7xL3RRLHwDm3RwVh5LCg2t34gGU4"
+    },
+    {
+      "check": "supply cannot exceed the organizer's limit",
+      "signature": "5easWPhhq1aqngCuYzaQurQL9vnKnWYhjf1rWKNGYquNDoeZk82NF8v3kCGARgtVq62hXYWdC8fdnYc99ZkuEKrz"
+    },
+    {
+      "check": "the marketplace program rejects an event cap above 25%",
+      "signature": "4Rmx65znnXKSqgogyV6TCT3inEsPfdP9HUfzGzjaZDTxsZcQEpjg2EF32a6v7V9vrb7MAQHMKtYu5K4CyeJA7Zzw"
+    }
+  ]
+}

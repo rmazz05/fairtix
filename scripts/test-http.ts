@@ -89,8 +89,17 @@ async function main() {
     r.json(),
   );
   assert.match(metadata.description, /test|demo/i);
+  const proofs = await fetch(`${base}/api/proofs`);
+  assert.equal(proofs.status, 200);
+  const log = await proofs.json();
+  assert(Array.isArray(log.proofs));
+  assert.equal(
+    log.events,
+    undefined,
+    "Attempt log must not fetch the entire owner snapshot",
+  );
   console.log(
-    "8 HTTP checks passed: live state, origin, account input, cap, UTF-8 names, date, sponsor signature and unsigned relay rejection.",
+    "9 HTTP checks passed: live state, origin, account input, cap, UTF-8 names, date, sponsor signature, unsigned relay rejection and the attempt log endpoint.",
   );
 }
 main().catch((e) => {

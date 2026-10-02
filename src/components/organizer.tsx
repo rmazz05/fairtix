@@ -1,16 +1,19 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "@phosphor-icons/react";
 import { useSession } from "./session";
 import { useApp } from "./providers";
 import { Verify } from "./ticket";
 import { euros, type Proof } from "@/lib/types";
+import { readResponse } from "@/lib/client-http";
 export function Organizer() {
   const app = useApp(),
     session = useSession(),
     [proofs, setProofs] = useState<Proof[]>([]),
-    [loading, setLoading] = useState(false);
+    [loading, setLoading] = useState(true),
+    [proofError, setProofError] = useState<string | null>(null);
+  const proofRequest = useRef<AbortController | null>(null);
   const own = app.snapshot.events.filter(
     (e) => e.organizer === session.address,
   );
@@ -19,21 +22,34 @@ export function Organizer() {
     : app.snapshot.events.filter((e) => e.example);
   const example = !own.length;
   async function loadProofs() {
+    proofRequest.current?.abort();
+    const request = new AbortController();
+    proofRequest.current = request;
     setLoading(true);
+    setProofError(null);
     try {
-      const state = await fetch(
-        `/api/state?proof=1${session.address ? `&owner=${session.address}` : ""}`,
-      ).then((r) => r.json());
-      setProofs(state.proofs || []);
-    } catch {
-      app.setMessage("The attempt log could not be loaded. Try refreshing it.");
+      const state = await readResponse<{ proofs: Proof[] }>(
+        await fetch("/api/proofs", {
+          signal: request.signal,
+          cache: "no-store",
+        }),
+      );
+      if (!request.signal.aborted) setProofs(state.proofs);
+    } catch (error) {
+      if (!request.signal.aborted)
+        setProofError(
+          error instanceof Error && !(error instanceof TypeError)
+            ? error.message
+            : "The attempt log could not be loaded. Check your connection and try again.",
+        );
     } finally {
-      setLoading(false);
+      if (!request.signal.aborted) setLoading(false);
     }
   }
   useEffect(() => {
     void loadProofs();
-  }, [session.address]);
+    return () => proofRequest.current?.abort();
+  }, []);
   const sold = events.reduce((n, e) => n + e.sold, 0),
     resales = events.reduce((n, e) => n + e.resales, 0),
     royalties = events.reduce((n, e) => n + e.royaltiesEarned, 0);
@@ -130,9 +146,18 @@ export function Organizer() {
             onClick={() => void loadProofs()}
             disabled={loading}
           >
-            {loading ? "Loading attempts…" : "Refresh log"}
+            {loading
+              ? "Loading attempts…"
+              : proofError
+                ? "Retry loading log"
+                : "Refresh log"}
           </button>
         </div>
+        {proofError && (
+          <p className="error-text" role="alert">
+            {proofError}
+          </p>
+        )}
         {proofs.length ? (
           <ul>
             {proofs.map((p) => (
@@ -154,10 +179,13 @@ export function Organizer() {
             ))}
           </ul>
         ) : (
-          <p className="empty-copy">
-            No blocked attempts are recorded in the recent log. Try the €60
-            resale on the home page.
-          </p>
+          !proofError && (
+            <p className="empty-copy">
+              {loading
+                ? "Reading the recent transaction receipts…"
+                : "No blocked attempts are recorded in the recent log. Try the €60 resale on the home page."}
+            </p>
+          )
         )}
         <p className="log-note">
           A failed transaction cannot update the event’s counters. This log

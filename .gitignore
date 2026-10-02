@@ -19,5 +19,5 @@ playwright-report/
 .DS_Store
 *.tsbuildinfo
 .vercel
-
-.next-dev-previous
+.next-dev-previous/
+.submission-archive/

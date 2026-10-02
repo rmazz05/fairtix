@@ -1,45 +1,89 @@
 # Fairtix
 
-Tickets with a resale cap, for student clubs and small venues.
+**Event tickets with an organizer-set resale cap.**
 
-The organizer sets a face price, maximum resale markup and royalty. A fan can buy a ticket, list it within the cap, or cancel a listing. A completed resale pays the seller, organizer and platform atomically.
+Fairtix lets a student club or small venue sell general-admission tickets, set the maximum resale price, and receive a royalty when a ticket changes hands. A buyer whose plans change can list their ticket within that cap or cancel an unsold listing.
 
-[Public devnet demo](https://fairtix-whu.vercel.app) · [Deck and devnet walkthrough](https://fairtix-whu.vercel.app/project)
+[Try the app](https://fairtix-whu.vercel.app) · [Try both sides of a resale](https://fairtix-whu.vercel.app/demo) · [Pitch deck](https://fairtix-whu.vercel.app/pitch.pdf) · [Video walkthrough](https://fairtix-whu.vercel.app/project)
 
-This is a Solana test-credit prototype. It does not take real euro payments or admit anyone to a real event.
+This is a working **Solana devnet prototype** built for the WHU challenge. All displayed euro amounts represent valueless test credits. There are no real payments or event admissions.
 
-## Why Solana is part of the product
+## The problem
 
-Every event has a Token-2022 mint. Each whole token is one general-admission ticket. The mint attaches a transfer hook which rejects direct transfers, including signed wallet-to-wallet transactions. Ticket accounts use immutable ownership so changing the token account owner cannot bypass the rule.
+An organizer can publish a resale policy, but a ticket that can be transferred freely can leave the marketplace where that policy is checked. A fan then has little assurance that the advertised cap governs the next sale. Organizers also lose visibility into those transfers and receive no share of a resale.
 
-The marketplace checks the cap before moving a ticket into a listing’s escrow. Only the marketplace can sign for that escrow. Resale releases the ticket and splits the payment in a single transaction. The hook is a separate program because marketplace → Token-2022 → hook must not re-enter the marketplace.
+Fairtix puts the transfer restriction on the ticket itself. A normal signed wallet-to-wallet transfer fails. A permitted resale must pass the marketplace's price check and pay the seller, organizer and platform together.
 
-A normal ticket database can enforce rules inside its own app. Here, an external wallet still encounters the same transfer rule, and anyone can inspect the mint, programs and transaction receipts. Cash side deals remain possible. The development upgrade authority is retained and could change the software in a future upgrade.
+For the example event, the face price is €25, the cap is €27.50 and the organizer's resale royalty is 5%:
 
-## The three proof moments
+| Action                             | Result                                                                                            |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Ask €60 for the ticket             | The listing fails; the seller keeps the ticket.                                                   |
+| Send it directly to another wallet | The transfer hook refuses it.                                                                     |
+| Resell it for €27.50               | The buyer receives the ticket; the seller receives €25.58, the organizer €1.37 and Fairtix €0.55. |
+| Cancel an unsold listing           | The escrowed ticket returns to the seller.                                                        |
 
-- A €60 listing fails for the example ticket capped at €27.50. The seller keeps the ticket.
-- A direct transfer fails in the Token-2022 hook.
-- A €27.50 resale pays €25.58 to the seller, €1.37 to the organizer and €0.55 to Fairtix. The buyer receives the ticket in that transaction.
+Royalties and platform fees round down to whole cents; the seller receives the remainder. On a primary purchase, the organizer receives 97% and Fairtix receives 3%. Buyers pay the displayed price without an additional buyer fee.
 
-The organizer dashboard reads actual event counters. Its blocked-attempt log reads failed transaction receipts because a failed transaction cannot change a counter.
+## Try the working demo
 
-## Run locally
+Open [the demo guide](https://fairtix-whu.vercel.app/demo). No email, browser wallet or SOL balance is required.
 
-Requirements: Node 22, Rust, Agave 4.3.0+, and Anchor CLI 0.32.1. The current Agave feature set requires SBPF v3 for new deployments; the build script specifies it.
+1. Select **account 1, the seller**. Buy the example ticket. Checkout adds test credits if needed and the server covers transaction fees.
+2. In **My tickets**, try listing at €60. Then open **Test the transfer rule** and try a direct transfer. Both attempts have real failed transaction receipts linked to Solana Explorer.
+3. List the ticket at €27.50. Return to the guide and select **account 2, the buyer**. Open the event and buy the resale listing marked **From demo account 1**. Check the buyer's ticket and the organizer's royalty increase.
+
+Both demo accounts stay in the same browser between page visits. Signing out clears their local keys. Do not send real assets to demo accounts. Email sign-in is also available through Privy and creates an embedded Solana wallet; its signing flow was confirmed on the public app.
+
+An organizer can use **Create an event** to choose a name, venue, date, supply, face price, resale markup and royalty. The markup is bounded to 0–25%; the royalty to 0–10%. These event rules cannot be edited through the current program.
+
+## How Solana is used
+
+**Token-2022 tickets.** Each event has one mint with zero decimals. One whole token represents one general-admission ticket. Tickets are minted on purchase, and the event's supply bounds the number that can be sold. These are interchangeable admission units, not individual seat NFTs.
+
+**Transfer hook.** The mint attaches a separate program that is called by Token-2022 when a ticket moves. It allows movement into a valid marketplace listing's escrow and out during a resale or cancellation. It rejects a direct transfer even when the ticket owner signs it. Ticket token accounts have immutable ownership, closing the token-account-owner change route.
+
+**Marketplace escrow and atomic settlement.** The marketplace program checks the organizer's cap before accepting a listing. A program-derived account controls the escrow. A resale releases the ticket and splits the payment in a single transaction; if any part fails, all balance changes roll back. The hook is separate to avoid re-entering the marketplace during its Token-2022 transfer.
+
+A database and Stripe could enforce a cap inside one application. Here, the ticket owner controls a Solana token, yet an external wallet still encounters the transfer restriction. The mint, program source and receipts can be inspected independently of the website. Solana's role is the enforceable transfer path and atomic settlement, rather than a crypto payment button added to checkout.
+
+The application uses a two-decimal Token-2022 test-credit mint for payment. The server prepares transactions and signs only as the fee sponsor; the user signs as the ticket owner or buyer. The relay verifies all required signatures before submission. Event counters, listings and ownership are read from chain accounts. Failed-attempt logs read transaction receipts, since failed transactions cannot update counters. There is no application database.
+
+Public addresses and deployed binary hashes are recorded in [the deployment report](docs/devnet-deployment.json). The runtime verifies devnet's genesis hash before sponsoring any public-network transaction and refuses mainnet.
+
+## Run the interface locally
+
+You only need **Node.js 22 and npm** to inspect the interface:
+
+```bash
+git clone https://github.com/rmazz05/fairtix.git
+cd fairtix
+npm ci
+cp .env.example .env.local
+npm run dev
+```
+
+Open **http://localhost:3034**. The default configuration is explicitly labeled **Interface preview**. It shows the example ticket but disables purchases, transfers and creation. It needs no API key, sponsor key or blockchain installation. It does not simulate transactions.
+
+To test actual transactions, use the public devnet demo or follow the full local setup below.
+
+## Run the complete app on a local validator
+
+Install **Rust**, **Agave 4.3.0 or newer** (including `solana`, `solana-test-validator` and `cargo-build-sbf`), and **Anchor CLI 0.32.1**, and place them on `PATH`.
+
+Use a separate checkout for this setup. It generates local keys and changes program addresses in the Rust source, Anchor configuration and client files. These addresses belong to your deployment; they must not replace the deployed public app's addresses.
 
 ```bash
 npm ci
-cp .env.example .env.local
-npm run keys:local
+npm run setup:local
 npm run build:chain
 npm run validator
 ```
 
-In another terminal, fund the **public admin address in `chain/program-ids.json`** using the local faucet, then deploy the programs:
+Leave the validator running. In another terminal in the same directory:
 
 ```bash
-solana airdrop 30 ADMIN_ADDRESS --url http://127.0.0.1:8920
+solana airdrop 30 --keypair .keys/sponsor.json --url http://127.0.0.1:8920
 solana program deploy chain/target/deploy/fairtix_market.so --program-id .keys/market.json --keypair .keys/sponsor.json --url http://127.0.0.1:8920
 solana program deploy chain/target/deploy/fairtix_hook.so --program-id .keys/hook.json --keypair .keys/sponsor.json --url http://127.0.0.1:8920
 npm run seed
@@ -47,42 +91,53 @@ npm run test:chain
 npm run dev
 ```
 
-Open http://localhost:3034. The seed creates a clearly labeled example event. Test accounts can receive €100 in test credits; the server sponsors fees. The account drawer switches between two independent demo accounts, allowing one person to test a resale.
+The setup command configures `.env.local` for the local RPC and creates ignored test keys under `.keys/`. The build generates the program binaries and refreshes the Anchor IDL used by the frontend. The seed creates the credit mint and example event and saves their addresses in `.env.local`. Restart the web server after seeding if it was already running. To start a new empty ledger, stop the validator, remove the old `FAIRTIX_DEMO_EVENT` value, restart with `npm run validator -- --reset`, and seed again.
 
-`keys:local` changes the public program addresses to match your new local keys. Do not deploy those changed addresses over an existing public instance. Private keys are never committed.
+For devnet hosting, RPC configuration and email authentication, see [deployment setup](docs/deployment.md).
 
-## Email sign-in
+## Checks
 
-Email sign-in is configured on the public app and was confirmed by the project owner on 2 October 2026. See [the setup guide](docs/privy-setup.md). Email users receive an embedded Solana wallet; Phantom is also available through Privy’s Solana connectors. No Privy secret is needed by this frontend.
+```bash
+npm run typecheck      # App, chain client and scripts
+npm test               # RPC throttling and read/error recovery; no ledger needed
+npm run build          # Next.js production build
+npm run test:chain     # Requires your funded, seeded deployment
+npm run test:http      # Requires the app running at localhost:3034
+```
 
-The app also offers explicitly labeled demo accounts stored in the browser. Signing out clears these test identities. They must never hold real funds.
+The recorded [13 devnet chain checks](docs/chain-verification.json) cover bounded supply, primary settlement, immutable token ownership, over-cap and direct-transfer rejection, escrow, cancellation authorization, ticket recovery, insufficient-payment rollback and resale payout. [Local chain results](docs/local-chain-verification.json) are retained separately.
 
-## Deploy to devnet
+The HTTP suite checks state, input and origin validation, sponsor signatures, unsigned relay rejection, metadata and the attempt-log endpoint. The RPC and resilience suites check HTTP/JSON-RPC throttling, serialized calls, coalesced reads, cache expiry/invalidation, failed-read recovery and errors that must not be mistaken for empty logs. [Browser verification](docs/browser-verification.md) records actual app flows and responsive checks.
 
-Set `SOLANA_NETWORK=devnet` and `SOLANA_RPC_URL=https://api.devnet.solana.com`. The sponsor checks devnet’s genesis hash and refuses other public networks. On Vercel, localnet is always disabled.
+To run HTTP checks against the public deployment:
 
-The two programs currently reserve about 3.41 test SOL in rent. A deployment needs temporary buffer funding too; about 6 free devnet SOL is sufficient when deploying sequentially. Use a test-only sponsor. Deploy the same binaries with `--url devnet`, run `npm run seed` against devnet, then set the resulting example event in Vercel’s environment.
+```bash
+FAIRTIX_TEST_URL=https://fairtix-whu.vercel.app FAIRTIX_TEST_NETWORK=devnet npm run test:http
+```
 
-`FAIRTIX_PREVIEW=1` keeps an explicitly labeled example ticket visible while the programs are unavailable. Purchases and chain actions remain disabled. It does not simulate transactions or counters.
+## Repository map
 
-Server variables: `SOLANA_RPC_URL`, `SOLANA_NETWORK`, `SOLANA_SPONSOR_KEY` (a JSON key array, server only), `FAIRTIX_DEMO_EVENT`. `SOLANA_SPONSOR_KEY_PATH` is local development only. `FAIRTIX_EXCLUDED_EVENTS` can exclude specific automated-test event addresses from the public calendar.
+| Path                             | Purpose                                                                    |
+| -------------------------------- | -------------------------------------------------------------------------- |
+| `src/app/`                       | Pages, styling and server-side HTTP routes                                 |
+| `src/components/`                | Ticket, checkout, organizer, account and demo interfaces                   |
+| `src/lib/chain.ts`               | Anchor instructions and token account derivation                           |
+| `src/lib/server.ts`              | Chain reads, devnet guard, sponsorship and transaction relay               |
+| `chain/programs/fairtix_market/` | Event creation, bounded issuance, capped listings, cancellation and resale |
+| `chain/programs/fairtix_hook/`   | Token-2022 transfer restriction                                            |
+| `scripts/`                       | Local setup, builds, seed and verification suites                          |
+| `docs/`                          | Setup instructions, deployment evidence and verification records           |
+| `public/`                        | Final pitch PDF, editable deck, captioned video and poster                 |
 
-Client variables: `NEXT_PUBLIC_PRIVY_APP_ID` and `NEXT_PUBLIC_SITE_URL`. Changing the Privy ID requires a fresh frontend build.
+Private keys, environment files, dependencies, validator ledgers and build output are excluded from Git. Final submission assets have one canonical copy under `public/`.
 
-## Verification
+## Current limits
 
-`npm run test:chain` checks real token balances, mint supply and transaction failures against the configured deployment. The recorded results in [docs/chain-verification.json](docs/chain-verification.json) now document 13 successful checks on devnet, with transaction signatures. The earlier local run is preserved in [docs/local-chain-verification.json](docs/local-chain-verification.json). Deployed program bytes were compared with the tested binaries; addresses, deployment receipts and SHA-256 hashes are in [docs/devnet-deployment.json](docs/devnet-deployment.json).
+- Test credits only. No real euro checkout, event admission, check-in, refunds, seated tickets or identity verification.
+- Cash side deals and private-key sharing remain possible. The program enforces the recorded resale; it cannot inspect outside payments.
+- Program upgrade authority is retained for development. An upgrade could change the software; immutability is not claimed.
+- The prototype has not received an independent security audit. Sponsor and faucet throttling are best-effort within a server process.
+- Public reads are shared briefly within a server process: up to two seconds for event/listing data and one second for attempt logs. Confirmed transactions invalidate those local caches. Owner balances are read separately. The shared public RPC can still throttle; an account-scoped devnet endpoint is recommended for hosted use.
+- No organizer endorsement, paid customer, interview result or committed pilot is claimed. The first proposed pilot is a WHU student club.
 
-`npm run test:http` checks the live state endpoint, origin and input validation, sponsor signatures and unsigned relay rejection. Start the local app before running it. For the public deployment, set `FAIRTIX_TEST_URL=https://fairtix-whu.vercel.app` and `FAIRTIX_TEST_NETWORK=devnet`. Browser checks are recorded in [docs/browser-verification.md](docs/browser-verification.md).
-
-`npx tsx scripts/test-rpc.ts` checks bounded recovery for HTTP and JSON-RPC 429 responses, request serialization and plain retry messages. Transaction confirmation uses HTTP polling to avoid a WebSocket subscription for every serverless request. The public RPC remains a shared service and can still throttle under load.
-
-`npm run typecheck` checks the full app and integration. `npm run build` produces the Next.js deployment. Private keys, environment files and validator ledgers are excluded from Git and Vercel uploads.
-
-## Limits
-
-No organizer testimonial or commitment is claimed. Demo credits have no euro value. There is no check-in, seat map, mainnet deployment, identity verification or real-money payment flow. Faucet throttling is best-effort per server process and is intended only for test credits.
-
-## Challenge
-
-[Build an MVP with Solana at WHU](https://superteam.fun/earn/listing/build-at-whu) closes on 4 October 2026 at 23:59 Berlin time. It requires WHU Hackathon 2026 participation, a pitch-deck link and a public repository. Submission remains a human action.
+The [WHU challenge](https://superteam.fun/earn/listing/build-at-whu) requires a working Solana prototype, a pitch-deck link, a public repository and participant eligibility. The public app and submission materials are linked at the top of this README.
